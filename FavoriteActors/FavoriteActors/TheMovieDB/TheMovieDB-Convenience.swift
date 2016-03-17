@@ -46,7 +46,7 @@ extension TheMovieDB {
 
         taskForResource(Resources.GenreIDMovies, parameters: parameters) {JSONResult, error in
             
-            if let error = error {
+            if let error = error{
                 completionHandler(result: nil, error: error)
             } else {
                 
@@ -69,8 +69,6 @@ extension TheMovieDB {
         
         let parameters = [Keys.ID : person.id]
         
-        print("Step 2 - The moviesForPerson convenience method invokes taskForResource creating URL: ")
-        
         taskForResource(Resources.PersonIDMovieCredits, parameters: parameters) {JSONResult, error in
             
             if let error = error {
@@ -78,7 +76,6 @@ extension TheMovieDB {
             } else {
                 
                 if let results = JSONResult.valueForKey("cast") as? [[String : AnyObject]] {
-                    print("Step 5 - moviesForPerson's completion handler is invoked.")
                     
                     let movies = results.map() { (dictionary: [String : AnyObject]) -> Movie in
                         return Movie(dictionary: dictionary)
@@ -106,8 +103,6 @@ extension TheMovieDB {
         
         let parameters = [Keys.ID : movie.id]
         
-        print("Step 2 - The castForMovie convenience method invokes taskForResource creating URL: ")
-        
         taskForResource(Resources.MovieIDCredits, parameters: parameters) { JSONResult, error in
             
             if let error = error {
@@ -115,7 +110,6 @@ extension TheMovieDB {
             } else {
                 
                 if let results = JSONResult.valueForKey("cast") as? [[String : AnyObject]] {
-                    print("Step 5 - castForMovie's completion handler is invoked.")
                     
                     let people = results.map() {Person(dictionary: $0)}
                     
@@ -135,7 +129,7 @@ extension TheMovieDB {
             
             if let error = error {
                 completionHandler(didSucceed: false, error: error)
-            } else if let newConfig = Config(dictionary: (JSONResult as? [String : AnyObject])!) {
+            } else if let newConfig = Config(dictionary: JSONResult as![String : AnyObject]) {
                 self.config = newConfig
                 completionHandler(didSucceed: true, error: nil)
             } else {

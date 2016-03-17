@@ -44,10 +44,11 @@ class ImageCache {
         // If the image is nil, remove images from the cache
         if image == nil {
             inMemoryCache.removeObjectForKey(path)
+            
             do {
                 try NSFileManager.defaultManager().removeItemAtPath(path)
-            } catch _ {
-            }
+            } catch _ {}
+            
             return
         }
         
@@ -55,8 +56,8 @@ class ImageCache {
         inMemoryCache.setObject(image!, forKey: path)
         
         // And in documents directory
-        let data = UIImagePNGRepresentation(image!)
-        data!.writeToFile(path, atomically: true)
+        let data = UIImagePNGRepresentation(image!)!
+        data.writeToFile(path, atomically: true)
     }
     
     // MARK: - Helper

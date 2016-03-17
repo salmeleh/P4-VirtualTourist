@@ -16,7 +16,7 @@ extension TheMovieDB {
         static let ApiKey = "3c534dc71a2f9d28e9594e5773abcc93"
         static let BaseUrl = "http://api.themoviedb.org/3/"
         static let BaseUrlSSL = "https://api.themoviedb.org/3/"
-        static let BaseImageUrl = "https://image.tmdb.org/t/p/"
+        static let BaseImageUrl = "http://image.tmdb.org/t/p/"
     }
     
     struct Resources {
