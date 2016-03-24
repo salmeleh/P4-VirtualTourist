@@ -7,7 +7,7 @@
 
 import UIKit
 
-class Movie {
+class Movie : NSObject, NSCoding {
     
     struct Keys {
         static let Title = "title"
@@ -30,14 +30,6 @@ class Movie {
         }
     }
     
-    
-    /**
-        posterImage is a computed property. From outside of the class is should look like objects
-        have a direct handle to their image. In fact, they store them in an imageCache. The
-        cache stores the images into the documents directory, and keeps a resonable number of
-        them in memory.
-    */
-    
     var posterImage: UIImage? {
         
         get {
@@ -47,6 +39,25 @@ class Movie {
         set {
             TheMovieDB.Caches.imageCache.storeImage(newValue, withIdentifier: posterPath!)
         }
+    }
+    
+    // MARK: - NSCoding
+    
+    func encodeWithCoder(archiver: NSCoder) {
+        
+        archiver.encodeInteger(id, forKey: TheMovieDB.Keys.ID)
+        archiver.encodeObject(title, forKey: Keys.Title)
+        archiver.encodeObject(posterPath, forKey: Keys.PosterPath)
+        archiver.encodeObject(releaseDate, forKey: Keys.ReleaseDate)
+    }
+    
+    required init(coder unarchiver: NSCoder) {
+        super.init()
+        
+        id = unarchiver.decodeIntegerForKey(TheMovieDB.Keys.ID)
+        title = unarchiver.decodeObjectForKey(Keys.Title) as! String
+        posterPath = unarchiver.decodeObjectForKey(Keys.PosterPath) as? String
+        releaseDate = unarchiver.decodeObjectForKey(Keys.ReleaseDate) as? NSDate
     }
 }
 

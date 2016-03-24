@@ -19,10 +19,27 @@ class FavoriteActorViewController : UITableViewController, ActorPickerViewContro
 
         self.navigationItem.leftBarButtonItem = self.editButtonItem()
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Add, target: self, action: "addActor")
-        
-        self.actors = NSKeyedUnarchiver.unarchiveObjectWithFile(actorsFilePath) as! [Person]
-        
+
+        // Unarchive the graph when the list is first shown
+        self.actors = NSKeyedUnarchiver.unarchiveObjectWithFile(actorsFilePath) as? [Person] ?? [Person]()
     }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+
+        // Archive the graph any time this list of actors is displayed.
+        NSKeyedArchiver.archiveRootObject(self.actors, toFile: actorsFilePath)
+    }
+
+    
+    // MARK: - Saving the array. Helper.
+    
+    var actorsFilePath : String {
+        let manager = NSFileManager.defaultManager()
+        let url = manager.URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask).first! 
+        return url.URLByAppendingPathComponent("actorsArray").path!
+    }
+
     
     // Mark: - Actions
     
@@ -49,11 +66,9 @@ class FavoriteActorViewController : UITableViewController, ActorPickerViewContro
             
             // If we didn't find any, then add
             self.actors.append(newActor)
-
+            
             // And reload the table
             self.tableView.reloadData()
-            
-            NSKeyedArchiver.archiveRootObject(self.actors, toFile: actorsFilePath)
         }
     }
     
@@ -118,47 +133,9 @@ class FavoriteActorViewController : UITableViewController, ActorPickerViewContro
         case .Delete:
             actors.removeAtIndex(indexPath.row)
             tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Fade)
+            NSKeyedArchiver.archiveRootObject(self.actors, toFile: actorsFilePath)
         default:
             break
         }
     }
-    
-    // MARK: - Saving the array
-    
-    var actorsFilePath : String {
-        let manager = NSFileManager.defaultManager()
-        let url = manager.URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask).first!
-        return url.URLByAppendingPathComponent("actorsArray").path!
-    }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
