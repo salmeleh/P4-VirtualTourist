@@ -7,7 +7,7 @@
 //
 
 import UIKit
-
+import CoreData
 
 class MovieListViewController : UITableViewController {
     
@@ -29,9 +29,9 @@ class MovieListViewController : UITableViewController {
         if actor.movies.isEmpty {
             
             let resource = TheMovieDB.Resources.PersonIDMovieCredits
-            let parameters = [TheMovieDB.Keys.ID : actor.id]
+            let parameters = [TheMovieDB.Keys.ID : Int(actor.id)]
             
-            TheMovieDB.sharedInstance().taskForResource(resource, parameters: parameters){ JSONResult, error  in
+            TheMovieDB.sharedInstance().taskForResource(resource, parameters: parameters){ (JSONResult: AnyObject!, error: NSError?) in
                 if let error = error {
                     self.alertViewForError(error)
                 } else {
@@ -40,12 +40,12 @@ class MovieListViewController : UITableViewController {
                         
                         // Parse the array of movies dictionaries
                         let movies = moviesDictionaries.map() { (dictionary: [String : AnyObject]) -> Movie in
-                            return Movie(dictionary: dictionary)
+                            return Movie(dictionary: dictionary, context: self.sharedContext)
                         }
                         
                         // Save the result
                         self.actor.movies = movies
-
+                        
                         // Update the table on the main thread
                         dispatch_async(dispatch_get_main_queue()) {
                             self.tableView.reloadData()
@@ -58,7 +58,15 @@ class MovieListViewController : UITableViewController {
             }
         }
     }
-
+    
+    
+    // MARK: - Core Data Convenience
+    
+    var sharedContext: NSManagedObjectContext {
+        let delegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        return delegate.managedObjectContext
+    }
+    
     
     // MARK: - Table View
     
@@ -67,23 +75,23 @@ class MovieListViewController : UITableViewController {
     }
     
     /**
-        The downloading of movie posters is handled here. Notice how the method uses a unique
-        table view cell that holds on to a task so that it can be canceled.
+    The downloading of movie posters is handled here. Notice how the method uses a unique
+    table view cell that holds on to a task so that it can be canceled.
     */
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let movie = actor.movies[indexPath.row]
         let CellIdentifier = "MovieCell"
         var posterImage = UIImage(named: "posterPlaceHoldr")
-
+        
         let cell = tableView.dequeueReusableCellWithIdentifier(CellIdentifier) as! TaskCancelingTableViewCell
         
         cell.textLabel!.text = movie.title
         cell.imageView!.image = nil
         
         // Set the Movie Poster Image
-
-        if movie.posterPath == nil || movie.posterImage == "" {
+        
+        if movie.posterPath == nil || movie.posterPath == "" {
             posterImage = UIImage(named: "noImage")
         } else if movie.posterImage != nil {
             posterImage = movie.posterImage
@@ -93,7 +101,7 @@ class MovieListViewController : UITableViewController {
             
             // This first line returns a string representing the second to the smallest size that TheMovieDB serves up
             let size = TheMovieDB.sharedInstance().config.posterSizes[1]
-
+            
             // Start the task that will eventually download the image
             let task = TheMovieDB.sharedInstance().taskForImageWithSize(size, filePath: movie.posterPath!) { data, error in
                 
@@ -125,6 +133,10 @@ class MovieListViewController : UITableViewController {
         return cell
     }
     
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        
+    }
+    
     override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
         
         switch (editingStyle) {
@@ -139,8 +151,7 @@ class MovieListViewController : UITableViewController {
     // MARK: - Alert View
     
     func alertViewForError(error: NSError) {
-        // A real live AlertViewController would be better...
-        print(error.localizedDescription)
+        
     }
 }
 

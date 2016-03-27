@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreData
 
 class FavoriteActorViewController : UITableViewController, ActorPickerViewControllerDelegate {
     
@@ -16,31 +17,17 @@ class FavoriteActorViewController : UITableViewController, ActorPickerViewContro
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         self.navigationItem.leftBarButtonItem = self.editButtonItem()
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Add, target: self, action: "addActor")
-
-        // Unarchive the graph when the list is first shown
-        self.actors = NSKeyedUnarchiver.unarchiveObjectWithFile(actorsFilePath) as? [Person] ?? [Person]()
     }
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-
-        // Archive the graph any time this list of actors is displayed.
-        NSKeyedArchiver.archiveRootObject(self.actors, toFile: actorsFilePath)
+        
+        tableView.reloadData()
     }
 
-    
-    // MARK: - Saving the array. Helper.
-    
-    var actorsFilePath : String {
-        let manager = NSFileManager.defaultManager()
-        let url = manager.URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask).first! 
-        return url.URLByAppendingPathComponent("actorsArray").path!
-    }
-
-    
     // Mark: - Actions
     
     func addActor() {
@@ -54,21 +41,17 @@ class FavoriteActorViewController : UITableViewController, ActorPickerViewContro
     // MARK: - Actor Picker Delegate
     
     func actorPicker(actorPicker: ActorPickerViewController, didPickActor actor: Person?) {
-
+        
         if let newActor = actor {
             
-            // Check to see if we already have this actor
+            // Check to see if we already have this actor. If so, return.
             for a in actors {
                 if a.id == newActor.id {
                     return
                 }
             }
             
-            // If we didn't find any, then add
-            self.actors.append(newActor)
-            
-            // And reload the table
-            self.tableView.reloadData()
+            // ??? What should we do here, with Core Data ???
         }
     }
     
@@ -90,20 +73,20 @@ class FavoriteActorViewController : UITableViewController, ActorPickerViewContro
         
         if let localImage = actor.image {
             cell.actorImageView.image = localImage
-        } else if actor.imagePath == "" {
+        } else if actor.imagePath == nil || actor.imagePath == "" {
             cell.actorImageView.image = UIImage(named: "personNoImage")
         }
-        
-        // If the above cases don't work, then we should download the image
-        
+            
+            // If the above cases don't work, then we should download the image
+            
         else {
             
             // Set the placeholder
             cell.actorImageView.image = UIImage(named: "personPlaceholder")
             
             let size = TheMovieDB.sharedInstance().config.profileSizes[1]
-            let task = TheMovieDB.sharedInstance().taskForImageWithSize(size, filePath: actor.imagePath) { (imageData, error) -> Void in
-            
+            let task = TheMovieDB.sharedInstance().taskForImageWithSize(size, filePath: actor.imagePath!) { (imageData, error) -> Void in
+                
                 if let data = imageData {
                     dispatch_async(dispatch_get_main_queue()) {
                         let image = UIImage(data: data)
@@ -115,7 +98,7 @@ class FavoriteActorViewController : UITableViewController, ActorPickerViewContro
             
             cell.taskToCancelifCellIsReused = task
         }
-            
+        
         return cell
     }
     
@@ -133,9 +116,48 @@ class FavoriteActorViewController : UITableViewController, ActorPickerViewContro
         case .Delete:
             actors.removeAtIndex(indexPath.row)
             tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Fade)
-            NSKeyedArchiver.archiveRootObject(self.actors, toFile: actorsFilePath)
         default:
             break
         }
     }
+    
+    // MARK: - Saving the array
+    
+    var actorArrayURL: NSURL {
+        let filename = "favoriteActorsArray"
+        let documentsDirectoryURL: NSURL = NSFileManager.defaultManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask).first! 
+        
+        return documentsDirectoryURL.URLByAppendingPathComponent(filename)
+    }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

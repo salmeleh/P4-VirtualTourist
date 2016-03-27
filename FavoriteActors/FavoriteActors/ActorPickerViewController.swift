@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreData
 
 protocol ActorPickerViewControllerDelegate {
     func actorPicker(actorPicker: ActorPickerViewController, didPickActor actor: Person?)
@@ -18,23 +19,37 @@ class ActorPickerViewController: UIViewController, UITableViewDelegate, UITableV
     @IBOutlet weak var tableView : UITableView!
     @IBOutlet weak var searchBar : UISearchBar!
     
-
+    
     // The data for the table
     var actors = [Person]()
-
+    
     // The delegate will typically be a view controller, waiting for the Actor Picker
     // to return an actor
     var delegate: ActorPickerViewControllerDelegate?
-
-    // The most recent data download task. We keep a reference to it so that it can 
+    
+    // The most recent data download task. We keep a reference to it so that it can
     // be canceled every time the search text changes
     var searchTask: NSURLSessionDataTask?
     
+    // Temporary Context?
+    //
+    // This view controller may temporarily download quite a few actors while the user
+    // is typing in text.
+    //
+    // If the user types "ll" for example, that would find "LL Cool J", "Bill Murray", and
+    // many others. We don't want to add all of those actors to the main context. So we will
+    // put them in this temporary context instead.
+    var temporaryContext: NSManagedObjectContext!
     
     // MARK: - life Cycle
-    
     override func viewDidLoad() {
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Cancel, target: self, action: "cancel")
+        
+        let delegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        
+        // Set the temporary context
+        temporaryContext = NSManagedObjectContext(concurrencyType: NSManagedObjectContextConcurrencyType.MainQueueConcurrencyType)
+        temporaryContext.persistentStoreCoordinator = delegate.managedObjectContext.persistentStoreCoordinator
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -66,7 +81,7 @@ class ActorPickerViewController: UIViewController, UITableViewDelegate, UITableV
         if searchText == "" {
             actors = [Person]()
             tableView?.reloadData()
-            objc_sync_exit(self)
+            //objc_sync_exit(self)
             return
         }
         
@@ -85,13 +100,15 @@ class ActorPickerViewController: UIViewController, UITableViewDelegate, UITableV
             // Get a Swift dictionary from the JSON data
             if let actorDictionaries = jsonResult.valueForKey("results") as? [[String : AnyObject]] {
                 self.searchTask = nil
-
+                
                 // Create an array of Person instances from the JSON dictionaries
-                self.actors = actorDictionaries.map() {Person(dictionary: $0)}
+                self.actors = actorDictionaries.map() {
+                    Person(dictionary: $0, context: self.temporaryContext)
+                }
                 
                 // Reload the table on the main thread
                 dispatch_async(dispatch_get_main_queue()) {
-                        self.tableView!.reloadData()
+                    self.tableView!.reloadData()
                 }
             }
         }
