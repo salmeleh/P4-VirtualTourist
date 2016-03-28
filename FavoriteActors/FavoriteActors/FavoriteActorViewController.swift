@@ -19,7 +19,7 @@ class FavoriteActorViewController : UITableViewController, ActorPickerViewContro
         super.viewDidLoad()
         
         self.navigationItem.leftBarButtonItem = self.editButtonItem()
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Add, target: self, action: "addActor")
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Add, target: self, action: "addActor")        
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -28,11 +28,33 @@ class FavoriteActorViewController : UITableViewController, ActorPickerViewContro
         tableView.reloadData()
     }
     
-    // MARK: - Core Data Convenience. This will be useful for fetching. And for adding and saving objects as well. 
+    // MARK: - Core Data Convenience. This will be useful for fetching. And for adding and saving objects as well.
     
     var sharedContext: NSManagedObjectContext {
         let delegate = UIApplication.sharedApplication().delegate as! AppDelegate
         return delegate.managedObjectContext
+    }
+    
+    /**
+     * This is the convenience method for fetching all persistent actors. 
+     * Right now there are three actors pre-loaded into Core Data. Eventually
+     * Core Data will only store the actors that the users chooses.
+     *
+     * The method creates a "Fetch Request" and then executes the request on
+     * the shared context. 
+     */
+    
+    func fetchAllActors() -> [Person] {
+        
+        // Create the Fetch Request
+        let fetchRequest = NSFetchRequest(entityName: "Person")
+        
+        // Execute the Fetch Request
+        do {
+            return try sharedContext.executeFetchRequest(fetchRequest) as! [Person]
+        } catch _ {
+            return [Person]()
+        }
     }
     
     // Mark: - Actions
@@ -49,16 +71,18 @@ class FavoriteActorViewController : UITableViewController, ActorPickerViewContro
     
     func actorPicker(actorPicker: ActorPickerViewController, didPickActor actor: Person?) {
         
+        
         if let newActor = actor {
             
+            // Debugging output
+            print("picked actor with name: \(newActor.name),  id: \(newActor.id), profilePath: \(newActor.imagePath)")
+
             // Check to see if we already have this actor. If so, return.
             for a in actors {
                 if a.id == newActor.id {
                     return
                 }
-            }
-            
-            self.actors.append(newActor)
+            }            
         }
     }
     

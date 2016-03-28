@@ -29,7 +29,7 @@ class MovieListViewController : UITableViewController {
         if actor.movies.isEmpty {
             
             let resource = TheMovieDB.Resources.PersonIDMovieCredits
-            let parameters = [TheMovieDB.Keys.ID : Int(actor.id)]
+            let parameters = [TheMovieDB.Keys.ID : actor.id]
             
             TheMovieDB.sharedInstance().taskForResource(resource, parameters: parameters){ JSONResult, error  in
                 if let error = error {
@@ -39,12 +39,13 @@ class MovieListViewController : UITableViewController {
                     if let moviesDictionaries = JSONResult.valueForKey("cast") as? [[String : AnyObject]] {
                         
                         // Parse the array of movies dictionaries
-                        let movies = moviesDictionaries.map() { (dictionary: [String : AnyObject]) -> Movie in
-                            return Movie(dictionary: dictionary, context: self.sharedContext)
+                        let _ = moviesDictionaries.map() { (dictionary: [String : AnyObject]) -> Movie in
+                            let movie = Movie(dictionary: dictionary, context: self.sharedContext)
+        
+                            movie.actor = self.actor
+                            
+                            return movie
                         }
-                        
-                        // Save the result
-                        self.actor.movies = movies
                         
                         // Update the table on the main thread
                         dispatch_async(dispatch_get_main_queue()) {
@@ -150,7 +151,8 @@ class MovieListViewController : UITableViewController {
             tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Fade)
             
             // Remove the movie from the context
-            sharedContext.deleteObject(movie)        default:
+            sharedContext.deleteObject(movie)
+        default:
             break
         }
     }

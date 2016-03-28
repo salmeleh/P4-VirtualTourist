@@ -32,7 +32,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         var actorCount: Int
         
         do {
-             actorCount = try context.executeFetchRequest(fetchRequest).count
+            actorCount = try context.executeFetchRequest(fetchRequest).count
         } catch _ {
             actorCount = 0
         }
@@ -79,7 +79,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     // MARK: - Core Data stack
-    
     
     lazy var applicationDocumentsDirectory: NSURL = {
         // The directory the application uses to store the Core Data store file. This code uses a directory named "OakStreetLabs.ThrowAway" in the application's documents Application Support directory.
@@ -142,3 +141,4 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
     }
 }
+
