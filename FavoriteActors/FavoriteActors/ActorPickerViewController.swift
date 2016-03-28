@@ -81,7 +81,7 @@ class ActorPickerViewController: UIViewController, UITableViewDelegate, UITableV
         if searchText == "" {
             actors = [Person]()
             tableView?.reloadData()
-            //objc_sync_exit(self)
+            objc_sync_exit(self)
             return
         }
         

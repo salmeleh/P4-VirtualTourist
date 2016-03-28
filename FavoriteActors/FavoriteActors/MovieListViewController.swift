@@ -31,7 +31,7 @@ class MovieListViewController : UITableViewController {
             let resource = TheMovieDB.Resources.PersonIDMovieCredits
             let parameters = [TheMovieDB.Keys.ID : Int(actor.id)]
             
-            TheMovieDB.sharedInstance().taskForResource(resource, parameters: parameters){ (JSONResult: AnyObject!, error: NSError?) in
+            TheMovieDB.sharedInstance().taskForResource(resource, parameters: parameters){ JSONResult, error  in
                 if let error = error {
                     self.alertViewForError(error)
                 } else {
@@ -141,9 +141,16 @@ class MovieListViewController : UITableViewController {
         
         switch (editingStyle) {
         case .Delete:
-            actor.movies.removeAtIndex(indexPath.row)
+            let movie = actor.movies[indexPath.row]
+            
+            // Remove the movie from the actors array using the inverse relationship
+            movie.actor = nil
+            
+            // Remove the row from the table
             tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Fade)
-        default:
+            
+            // Remove the movie from the context
+            sharedContext.deleteObject(movie)        default:
             break
         }
     }

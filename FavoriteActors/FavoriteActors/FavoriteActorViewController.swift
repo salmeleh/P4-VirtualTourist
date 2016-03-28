@@ -27,7 +27,14 @@ class FavoriteActorViewController : UITableViewController, ActorPickerViewContro
         
         tableView.reloadData()
     }
-
+    
+    // MARK: - Core Data Convenience. This will be useful for fetching. And for adding and saving objects as well. 
+    
+    var sharedContext: NSManagedObjectContext {
+        let delegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        return delegate.managedObjectContext
+    }
+    
     // Mark: - Actions
     
     func addActor() {
@@ -51,7 +58,7 @@ class FavoriteActorViewController : UITableViewController, ActorPickerViewContro
                 }
             }
             
-            // ??? What should we do here, with Core Data ???
+            self.actors.append(newActor)
         }
     }
     
@@ -125,7 +132,7 @@ class FavoriteActorViewController : UITableViewController, ActorPickerViewContro
     
     var actorArrayURL: NSURL {
         let filename = "favoriteActorsArray"
-        let documentsDirectoryURL: NSURL = NSFileManager.defaultManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask).first! 
+        let documentsDirectoryURL: NSURL = NSFileManager.defaultManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask).first!
         
         return documentsDirectoryURL.URLByAppendingPathComponent(filename)
     }

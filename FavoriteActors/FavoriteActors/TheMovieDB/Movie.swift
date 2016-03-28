@@ -34,7 +34,7 @@ class Movie : NSManagedObject {
         
         // Dictionary
         title = dictionary[Keys.Title] as! String
-        id = dictionary[TheMovieDB.Keys.ID] as! Int
+        id = dictionary[TheMovieDB.Keys.ID] as! NSNumber
         posterPath = dictionary[Keys.PosterPath] as? String
         
         if let dateString = dictionary[Keys.ReleaseDate] as? String {
