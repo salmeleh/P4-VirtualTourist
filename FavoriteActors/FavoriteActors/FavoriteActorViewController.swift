@@ -166,34 +166,3 @@ class FavoriteActorViewController : UITableViewController, ActorPickerViewContro
     
     
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

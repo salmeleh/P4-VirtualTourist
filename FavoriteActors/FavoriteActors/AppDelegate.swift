@@ -21,47 +21,47 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         TheMovieDB.sharedInstance().config.updateIfDaysSinceUpdateExceeds(7)
         
         // Generate Sample Data
-        generateSampleData()
+        //generateSampleData()
         
         return true
     }
     
-    func generateSampleData() {
-        let context = managedObjectContext
-        let fetchRequest = NSFetchRequest(entityName: "Person")
-        var actorCount: Int
-        
-        do {
-            actorCount = try context.executeFetchRequest(fetchRequest).count
-        } catch _ {
-            actorCount = 0
-        }
-        
-        var dictionary: [String : AnyObject]
-        var person: Person
-        
-        let thurman = [
-            "name" : "Uma Thurman",
-            "id" : 139,
-            "profile_path" : "/1syarPILK8IIFvBHhlK8pdBZ2bz.jpg"
-        ]
-        
-        person = Person(dictionary: thurman, context: context)
-        
-        if actorCount == 0 {
-            
-            dictionary = ["name" : "LL Cool J", "id" : 36424, "profile_path":"/bPZmMROI8KXbZl3ljNRmkU6Tnb3.jpg"]
-            person = Person(dictionary: dictionary, context: context)
-            
-            dictionary = ["name" : "Ellen Page", "id" : 27578, "profile_path":"/vDunkYxyQPkzx9EwkfSZVCSzBlO.jpg"]
-            person = Person(dictionary: dictionary, context: context)
-            
-            dictionary = ["name" : "Bill Murray", "id" : 1532, "profile_path":"/eb58HuFIrxS0zUmbmW4d8YXTbje.jpg"]
-            person = Person(dictionary: dictionary, context: context)
-            
-            saveContext()
-        }
-    }
+//    func generateSampleData() {
+//        let context = managedObjectContext
+//        let fetchRequest = NSFetchRequest(entityName: "Person")
+//        var actorCount: Int
+//        
+//        do {
+//            actorCount = try context.executeFetchRequest(fetchRequest).count
+//        } catch _ {
+//            actorCount = 0
+//        }
+//        
+//        var dictionary: [String : AnyObject]
+//        var person: Person
+//        
+//        let thurman = [
+//            "name" : "Uma Thurman",
+//            "id" : 139,
+//            "profile_path" : "/1syarPILK8IIFvBHhlK8pdBZ2bz.jpg"
+//        ]
+//        
+//        person = Person(dictionary: thurman, context: context)
+//        
+//        if actorCount == 0 {
+//            
+//            dictionary = ["name" : "LL Cool J", "id" : 36424, "profile_path":"/bPZmMROI8KXbZl3ljNRmkU6Tnb3.jpg"]
+//            person = Person(dictionary: dictionary, context: context)
+//            
+//            dictionary = ["name" : "Ellen Page", "id" : 27578, "profile_path":"/vDunkYxyQPkzx9EwkfSZVCSzBlO.jpg"]
+//            person = Person(dictionary: dictionary, context: context)
+//            
+//            dictionary = ["name" : "Bill Murray", "id" : 1532, "profile_path":"/eb58HuFIrxS0zUmbmW4d8YXTbje.jpg"]
+//            person = Person(dictionary: dictionary, context: context)
+//            
+//            saveContext()
+//        }
+//    }
     
     func applicationWillResignActive(application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
