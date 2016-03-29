@@ -1,34 +1,27 @@
 {
-  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "6919666C0C21EFEDC2F6A73631297498F1C67155",
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "5E32233CC4B3D004BDE8903D03F6C0AFCAF27AFC",
   "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
 
   },
   "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
     "CD28FA6A2CFC634512324DD7C91B7993C5276BCE" : 0,
-    "5E32233CC4B3D004BDE8903D03F6C0AFCAF27AFC" : 0,
-    "6919666C0C21EFEDC2F6A73631297498F1C67155" : 0,
-    "E0784410442D92876B37E886308284DFB9771023" : 0
+    "E0784410442D92876B37E886308284DFB9771023" : 0,
+    "5E32233CC4B3D004BDE8903D03F6C0AFCAF27AFC" : 0
   },
   "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "8F1D3CDF-7263-4B8E-A0A1-4FB28A743ED0",
   "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
     "CD28FA6A2CFC634512324DD7C91B7993C5276BCE" : "ios-persistence",
-    "5E32233CC4B3D004BDE8903D03F6C0AFCAF27AFC" : "ios-persistence-2.0\/",
-    "6919666C0C21EFEDC2F6A73631297498F1C67155" : "P4-VirtualTourist\/",
-    "E0784410442D92876B37E886308284DFB9771023" : "ios-nanodegree"
+    "E0784410442D92876B37E886308284DFB9771023" : "ios-nanodegree",
+    "5E32233CC4B3D004BDE8903D03F6C0AFCAF27AFC" : "ios-persistence-2.0\/"
   },
   "DVTSourceControlWorkspaceBlueprintNameKey" : "FavoriteActors",
-  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintVersion" : 203,
   "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "FavoriteActors\/FavoriteActors.xcodeproj",
   "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
     {
       "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/udacity\/ios-persistence-2.0",
       "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
       "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "5E32233CC4B3D004BDE8903D03F6C0AFCAF27AFC"
-    },
-    {
-      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/salmeleh\/P4-VirtualTourist.git",
-      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
-      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "6919666C0C21EFEDC2F6A73631297498F1C67155"
     },
     {
       "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "http:\/\/github.com\/udacity\/ios-persistence",

@@ -11,7 +11,7 @@
         <attribute name="id" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="imagePath" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
-        <relationship name="movies" toMany="YES" deletionRule="Cascade" ordered="YES" destinationEntity="Movie" inverseName="actor" inverseEntity="Movie" syncable="YES"/>
+        <relationship name="movies" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="Movie" inverseName="actor" inverseEntity="Movie" syncable="YES"/>
     </entity>
     <elements>
         <element name="Movie" positionX="-63" positionY="-18" width="128" height="120"/>
