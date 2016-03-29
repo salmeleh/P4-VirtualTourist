@@ -26,12 +26,12 @@ class MovieListViewController : UITableViewController {
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        if actor.movies == nil || actor.movies!.isEmpty {
+        if actor.movies.count == 0 {
             
             let resource = TheMovieDB.Resources.PersonIDMovieCredits
             let parameters = [TheMovieDB.Keys.ID : actor.id]
             
-            TheMovieDB.sharedInstance().taskForResource(resource, parameters: parameters) {(JSONResult: AnyObject!, error: NSError?) -> Void  in
+            TheMovieDB.sharedInstance().taskForResource(resource, parameters: parameters){ JSONResult, error  in
                 if let error = error {
                     self.alertViewForError(error)
                 } else {
@@ -78,7 +78,7 @@ class MovieListViewController : UITableViewController {
     // MARK: - Table View
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return actor.movies?.count ?? 0
+        return actor.movies.count
     }
     
     /**
@@ -87,7 +87,7 @@ class MovieListViewController : UITableViewController {
     */
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let movie = actor.movies![indexPath.row]
+        let movie = actor.movies[indexPath.row]
         let CellIdentifier = "MovieCell"
         var posterImage = UIImage(named: "posterPlaceHoldr")
         
@@ -148,7 +148,7 @@ class MovieListViewController : UITableViewController {
         
         switch (editingStyle) {
         case .Delete:
-            actor.movies!.removeAtIndex(indexPath.row)
+            actor.movies.removeAtIndex(indexPath.row)
             tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Fade)
         default:
             break

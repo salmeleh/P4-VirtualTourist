@@ -103,6 +103,11 @@ class FavoriteActorViewController : UITableViewController, ActorPickerViewContro
 
                 // Append the actor to the array
                 self.actors.append(actorToBeAdded)
+                
+                // Save the context.
+                do {
+                    try self.sharedContext.save()
+                } catch _ {}
             }
         }
     }

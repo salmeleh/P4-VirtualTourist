@@ -124,7 +124,7 @@ class ActorPickerViewController: UIViewController, UITableViewDelegate, UITableV
         let CellReuseId = "ActorSearchCell"
         let actor = actors[indexPath.row]
         
-        let cell = tableView.dequeueReusableCellWithIdentifier(CellReuseId)!
+        let cell = tableView.dequeueReusableCellWithIdentifier(CellReuseId)! 
         
         cell.textLabel!.text = actor.name
         
