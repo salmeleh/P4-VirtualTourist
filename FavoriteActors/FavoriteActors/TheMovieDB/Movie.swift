@@ -8,6 +8,11 @@
 import UIKit
 import CoreData
 
+/**
+*   Notice that Movie is now a subclass of NSManagedObject.
+*   We will look at each change in this file in detail in Lesson 4.
+*/
+
 class Movie : NSManagedObject {
     
     struct Keys {
@@ -17,10 +22,10 @@ class Movie : NSManagedObject {
     }
     
     @NSManaged var title: String
-    @NSManaged var id: NSNumber
+    @NSManaged var id: Int
     @NSManaged var posterPath: String?
-    @NSManaged var releaseDate: NSDate?
-    @NSManaged var actor: Person?
+    @NSManaged var releaseDate: NSDate
+    @NSManaged var actor: Person
     
     override init(entity: NSEntityDescription, insertIntoManagedObjectContext context: NSManagedObjectContext?) {
         super.init(entity: entity, insertIntoManagedObjectContext: context)
@@ -34,13 +39,11 @@ class Movie : NSManagedObject {
         
         // Dictionary
         title = dictionary[Keys.Title] as! String
-        id = dictionary[TheMovieDB.Keys.ID] as! NSNumber
-        posterPath = dictionary[Keys.PosterPath] as? String
+        id = dictionary[TheMovieDB.Keys.ID] as! Int
+        posterPath = dictionary[Keys.PosterPath] as? String ?? ""
         
-        if let dateString = dictionary[Keys.ReleaseDate] as? String {
-            if let date = TheMovieDB.sharedDateFormatter.dateFromString(dateString) {
-                releaseDate = date
-            }
+        if let releaseDateString = dictionary[Keys.ReleaseDate] as? String {
+            releaseDate = TheMovieDB.sharedDateFormatter.dateFromString(releaseDateString)!
         }
     }
     

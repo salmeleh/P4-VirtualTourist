@@ -19,10 +19,9 @@ class FavoriteActorViewController : UITableViewController, ActorPickerViewContro
         super.viewDidLoad()
         
         self.navigationItem.leftBarButtonItem = self.editButtonItem()
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Add, target: self, action: #selector(FavoriteActorViewController.addActor))
-        
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Add, target: self, action: "addActor")
+
         actors = fetchAllActors()
-        
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -37,14 +36,14 @@ class FavoriteActorViewController : UITableViewController, ActorPickerViewContro
         let delegate = UIApplication.sharedApplication().delegate as! AppDelegate
         return delegate.managedObjectContext
     }
-    
+
     /**
-     * This is the convenience method for fetching all persistent actors. 
+     * This is the convenience method for fetching all persistent actors.
      * Right now there are three actors pre-loaded into Core Data. Eventually
      * Core Data will only store the actors that the users chooses.
      *
      * The method creates a "Fetch Request" and then executes the request on
-     * the shared context. 
+     * the shared context.
      */
     
     func fetchAllActors() -> [Person] {
@@ -59,6 +58,7 @@ class FavoriteActorViewController : UITableViewController, ActorPickerViewContro
             return [Person]()
         }
     }
+
     
     // Mark: - Actions
     
@@ -77,15 +77,33 @@ class FavoriteActorViewController : UITableViewController, ActorPickerViewContro
         
         if let newActor = actor {
             
-            // Debugging output
-            print("picked actor with name: \(newActor.name),  id: \(newActor.id), profilePath: \(newActor.imagePath)")
-
             // Check to see if we already have this actor. If so, return.
             for a in actors {
                 if a.id == newActor.id {
                     return
                 }
-            }            
+            }
+            
+            // Create a dictionary from the actor. Careful, the imagePath can be hil.
+            
+            var dictionary = [String : AnyObject]()
+            dictionary[Person.Keys.ID] = newActor.id
+            dictionary[Person.Keys.Name] = newActor.name
+            
+            if let imagePath = newActor.imagePath {
+                dictionary[Person.Keys.ProfilePath] = imagePath
+            }
+
+            // Insert the actor on the main thread
+            
+            dispatch_async(dispatch_get_main_queue()) {
+             
+                // Init the Person, using the shared Context
+                let actorToBeAdded = Person(dictionary: dictionary, context: self.sharedContext)
+
+                // Append the actor to the array
+                self.actors.append(actorToBeAdded)
+            }
         }
     }
     
@@ -163,6 +181,35 @@ class FavoriteActorViewController : UITableViewController, ActorPickerViewContro
         
         return documentsDirectoryURL.URLByAppendingPathComponent(filename)
     }
-    
-    
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
