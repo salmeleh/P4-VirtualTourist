@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		20499FCC1CAEFFFD00E6431A /* CoreDataStackManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20499FCB1CAEFFFD00E6431A /* CoreDataStackManager.swift */; };
+		20499FCF1CAF0D1300E6431A /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 20499FCD1CAF0D1300E6431A /* Model.xcdatamodeld */; };
 		4D52082B1A7DACDA0060A4B0 /* FavoriteActorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D52082A1A7DACDA0060A4B0 /* FavoriteActorViewController.swift */; };
 		4D52082D1A7DB5610060A4B0 /* MovieListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D52082C1A7DB5610060A4B0 /* MovieListViewController.swift */; };
 		4D52082F1A7DC53C0060A4B0 /* ImageCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D52082E1A7DC53C0060A4B0 /* ImageCache.swift */; };
@@ -36,6 +38,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		20499FCB1CAEFFFD00E6431A /* CoreDataStackManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataStackManager.swift; sourceTree = "<group>"; };
+		20499FCE1CAF0D1300E6431A /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
 		4D52082A1A7DACDA0060A4B0 /* FavoriteActorViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FavoriteActorViewController.swift; sourceTree = "<group>"; };
 		4D52082C1A7DB5610060A4B0 /* MovieListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MovieListViewController.swift; sourceTree = "<group>"; };
 		4D52082E1A7DC53C0060A4B0 /* ImageCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageCache.swift; sourceTree = "<group>"; };
@@ -99,7 +103,9 @@
 			children = (
 				4DBBE6FA1A7D72EF00347323 /* ActorPickerViewController.swift */,
 				4D52082A1A7DACDA0060A4B0 /* FavoriteActorViewController.swift */,
+				20499FCD1CAF0D1300E6431A /* Model.xcdatamodeld */,
 				4D52082C1A7DB5610060A4B0 /* MovieListViewController.swift */,
+				20499FCB1CAEFFFD00E6431A /* CoreDataStackManager.swift */,
 				4D9121891A7DDAB1007A236F /* TaskCancelingTableViewCell.swift */,
 				4D91218B1A8033C0007A236F /* ActorTableViewCell.swift */,
 				4DBBE6EF1A7D72C100347323 /* TheMovieDB */,
@@ -254,12 +260,14 @@
 				4DBBE6FB1A7D72EF00347323 /* ActorPickerViewController.swift in Sources */,
 				4D52082D1A7DB5610060A4B0 /* MovieListViewController.swift in Sources */,
 				4D91218C1A8033C0007A236F /* ActorTableViewCell.swift in Sources */,
+				20499FCF1CAF0D1300E6431A /* Model.xcdatamodeld in Sources */,
 				4DBBE6FD1A7D742B00347323 /* Config.swift in Sources */,
 				4DBBE6CF1A7D726900347323 /* AppDelegate.swift in Sources */,
 				4DBBE6F71A7D72C100347323 /* TheMovieDB-Constants.swift in Sources */,
 				4D52082B1A7DACDA0060A4B0 /* FavoriteActorViewController.swift in Sources */,
 				4DBBE6F91A7D72C100347323 /* TheMovieDB.swift in Sources */,
 				4DBBE6F61A7D72C100347323 /* Person.swift in Sources */,
+				20499FCC1CAEFFFD00E6431A /* CoreDataStackManager.swift in Sources */,
 				4D52082F1A7DC53C0060A4B0 /* ImageCache.swift in Sources */,
 				4D91218A1A7DDAB1007A236F /* TaskCancelingTableViewCell.swift in Sources */,
 				4DBBE6F51A7D72C100347323 /* Movie.swift in Sources */,
@@ -471,6 +479,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		20499FCD1CAF0D1300E6431A /* Model.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				20499FCE1CAF0D1300E6431A /* Model.xcdatamodel */,
+			);
+			currentVersion = 20499FCE1CAF0D1300E6431A /* Model.xcdatamodel */;
+			path = Model.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 4DBBE6C11A7D726900347323 /* Project object */;
 }

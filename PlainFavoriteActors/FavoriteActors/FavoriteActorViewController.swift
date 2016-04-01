@@ -26,7 +26,13 @@ class FavoriteActorViewController : UITableViewController, ActorPickerViewContro
         super.viewWillAppear(animated)
         
         tableView.reloadData()
+        
+        var sharedContext: NSManagedObjectContext {
+            return CoreDataStackManager.sharedInstance().managedObjectContext
+        }
+        
     }
+
     
     // Mark: - Actions
     
