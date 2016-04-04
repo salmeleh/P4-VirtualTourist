@@ -15,8 +15,12 @@ class MovieListViewController : UITableViewController {
     
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
-    // MARK: - Life Cycle
     
+    lazy var sharedContext = {
+        CoreDataStackManager.sharedInstance().managedObjectContext
+    }()
+    
+    // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -40,7 +44,7 @@ class MovieListViewController : UITableViewController {
                         
                         // Parse the array of movies dictionaries
                         _ = moviesDictionaries.map() { (dictionary: [String : AnyObject]) -> Movie in
-                            let movie = Movie(dictionary: dictionary)
+                            let movie = Movie(dictionary: dictionary, context: self.sharedContext)
                             
                             // We associate this movie with it's actor by appending it to the array
                             // In core data we use the relationship. We set the movie's actor property

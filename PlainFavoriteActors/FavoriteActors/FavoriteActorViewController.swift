@@ -13,10 +13,16 @@ class FavoriteActorViewController : UITableViewController, ActorPickerViewContro
     
     var actors = [Person]()
     
-    // MARK: - Life Cycle
+    lazy var sharedContext = {
+        CoreDataStackManager.sharedInstance().managedObjectContext
+    }()
     
+    // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        actors = fetchAllActors()
+        
         
         self.navigationItem.leftBarButtonItem = self.editButtonItem()
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Add, target: self, action: #selector(FavoriteActorViewController.addActor))
@@ -66,6 +72,10 @@ class FavoriteActorViewController : UITableViewController, ActorPickerViewContro
             // uses a "scratch" context. It fills its table with actors that have not been picked. We 
             // need to create a new person object that is inserted into the shared context. 
             self.actors.append(newActor)
+
+            CoreDataStackManager.sharedInstance().saveContext()
+            
+
         }
     }
     
@@ -143,35 +153,18 @@ class FavoriteActorViewController : UITableViewController, ActorPickerViewContro
         
         return documentsDirectoryURL.URLByAppendingPathComponent(filename)
     }
+    
+    
+    func fetchAllActors() -> [Person] {
+        let fetchRequest = NSFetchRequest(entityName: "Person")
+        do {
+            return try sharedContext.executeFetchRequest(fetchRequest) as! [Person]
+        } catch let error as NSError {
+            print("Error in fetchAllActors(): \(error)")
+            return [Person]()
+        }
+    }
+    
+    
+    
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

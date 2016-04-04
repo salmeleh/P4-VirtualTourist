@@ -31,6 +31,9 @@ class ActorPickerViewController: UIViewController, UITableViewDelegate, UITableV
     // be canceled every time the search text changes
     var searchTask: NSURLSessionDataTask?
     
+    lazy var sharedContext = {
+        CoreDataStackManager.sharedInstance().managedObjectContext
+    }()
     
     // MARK: - life Cycle
     override func viewDidLoad() {
@@ -89,7 +92,7 @@ class ActorPickerViewController: UIViewController, UITableViewDelegate, UITableV
                 // Create an array of Person instances from the JSON dictionaries
                 // If we change this so that it inserts into a context, which context should it be? 
                 self.actors = actorDictionaries.map() {
-                    Person(dictionary: $0)
+                    Person(dictionary: $0, context: self.sharedContext)
                 }
                 
                 // Reload the table on the main thread

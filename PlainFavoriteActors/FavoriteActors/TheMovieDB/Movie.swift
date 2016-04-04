@@ -20,6 +20,7 @@ class Movie: NSManagedObject {
     @NSManaged var id: Int
     @NSManaged var posterPath: String?
     @NSManaged var releaseDate: NSDate?
+    @NSManaged var actor: Person?
 
     override init(entity: NSEntityDescription, insertIntoManagedObjectContext context: NSManagedObjectContext?) {
         super.init(entity: entity, insertIntoManagedObjectContext: context)
