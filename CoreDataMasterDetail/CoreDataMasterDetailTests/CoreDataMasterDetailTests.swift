@@ -2,7 +2,7 @@
 //  CoreDataMasterDetailTests.swift
 //  CoreDataMasterDetailTests
 //
-//  Created by Jason on 3/9/15.
+//  Created by Jason on 3/24/15.
 //  Copyright (c) 2015 Udacity. All rights reserved.
 //
 
