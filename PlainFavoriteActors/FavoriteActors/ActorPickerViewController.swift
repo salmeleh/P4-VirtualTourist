@@ -34,7 +34,7 @@ class ActorPickerViewController: UIViewController, UITableViewDelegate, UITableV
     
     // MARK: - life Cycle
     override func viewDidLoad() {
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Cancel, target: self, action: "cancel")
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Cancel, target: self, action: #selector(ActorPickerViewController.cancel))
     }
     
     override func viewDidAppear(animated: Bool) {
