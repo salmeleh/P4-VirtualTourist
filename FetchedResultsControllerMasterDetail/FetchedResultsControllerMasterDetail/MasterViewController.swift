@@ -33,7 +33,7 @@ class MasterViewController: UITableViewController {
         // Set up the buttons
         self.navigationItem.leftBarButtonItem = self.editButtonItem()
         
-        let addButton = UIBarButtonItem(barButtonSystemItem: .Add, target: self, action: "insertNewObject:")
+        let addButton = UIBarButtonItem(barButtonSystemItem: .Add, target: self, action: #selector(MasterViewController.insertNewObject(_:)))
         self.navigationItem.rightBarButtonItem = addButton
         
         // Perform the fetch. This gets the machine rolling
@@ -100,7 +100,7 @@ class MasterViewController: UITableViewController {
         //
         // Notice that the fetchedResultsController is storing our Event objects. 
         // Here we get back an event by passing in an indexPath. The "objectAtIndexPath"
-        // is designed for our convenience in this metho, cellForRowAtIndexPath
+        // is designed for our convenience in this method, cellForRowAtIndexPath
         let event = self.fetchedResultsController.objectAtIndexPath(indexPath) as! Event
         
         let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath) as UITableViewCell
