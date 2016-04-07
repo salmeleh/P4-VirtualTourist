@@ -15,7 +15,7 @@ import CoreData
 
 // Step 8: Add the NSFetchedResultsControllerDelegate protocol to the class declaration
 
-class FavoriteActorViewController : UITableViewController, ActorPickerViewControllerDelegate {
+class FavoriteActorViewController : UITableViewController, ActorPickerViewControllerDelegate, NSFetchedResultsControllerDelegate {
    
     // Step 4: Remove the actors array
     //var actors = [Person]()
@@ -29,7 +29,7 @@ class FavoriteActorViewController : UITableViewController, ActorPickerViewContro
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Add, target: self, action: #selector(FavoriteActorViewController.addActor))
 
         // This will be removed in step 5
-        actors = fetchAllActors()
+        //actors = fetchAllActors()
         
         // Step 2: invoke fetchedResultsController.performFetch() here, and add in the do, try, catch
         do {
@@ -37,6 +37,7 @@ class FavoriteActorViewController : UITableViewController, ActorPickerViewContro
         } catch {}
         
         // Step 9: set the fetchedResultsController.delegate = self
+        fetchedResultsController.delegate = self
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -220,6 +221,60 @@ class FavoriteActorViewController : UITableViewController, ActorPickerViewContro
     }
     
     // Step 7: You can implmement the delegate methods here. Or maybe above the table methods. Anywhere is fine.
+    func controllerWillChangeContent(controller: NSFetchedResultsController) {
+        self.tableView.beginUpdates()
+    }
+    func controller(controller: NSFetchedResultsController,
+                    didChangeSection sectionInfo: NSFetchedResultsSectionInfo,
+                                     atIndex sectionIndex: Int,
+                                             forChangeType type: NSFetchedResultsChangeType) {
+        
+        switch type {
+        case .Insert:
+            self.tableView.insertSections(NSIndexSet(index: sectionIndex), withRowAnimation: .Fade)
+            
+        case .Delete:
+            self.tableView.deleteSections(NSIndexSet(index: sectionIndex), withRowAnimation: .Fade)
+            
+        default:
+            return
+        }
+    }
+    //
+    // This is the most interesting method. Take particular note of way the that newIndexPath
+    // parameter gets unwrapped and put into an array literal: [newIndexPath!]
+    //
+    func controller(controller: NSFetchedResultsController,
+                    didChangeObject anObject: AnyObject,
+                                    atIndexPath indexPath: NSIndexPath?,
+                                                forChangeType type: NSFetchedResultsChangeType,
+                                                              newIndexPath: NSIndexPath?) {
+        
+        switch type {
+        case .Insert:
+            tableView.insertRowsAtIndexPaths([newIndexPath!], withRowAnimation: .Fade)
+            
+        case .Delete:
+            tableView.deleteRowsAtIndexPaths([indexPath!], withRowAnimation: .Fade)
+            
+        case .Update:
+            let cell = tableView.cellForRowAtIndexPath(indexPath!) as! ActorTableViewCell
+            let actor = controller.objectAtIndexPath(indexPath!) as! Person
+            self.configureCell(cell, withActor: actor)
+            
+        case .Move:
+            tableView.deleteRowsAtIndexPaths([indexPath!], withRowAnimation: .Fade)
+            tableView.insertRowsAtIndexPaths([newIndexPath!], withRowAnimation: .Fade)
+            
+        default:
+            return
+        }
+    }
+    func controllerDidChangeContent(controller: NSFetchedResultsController) {
+        self.tableView.endUpdates()
+    }
+    
+    
     
     // MARK: - Saving the array
     
@@ -230,34 +285,4 @@ class FavoriteActorViewController : UITableViewController, ActorPickerViewContro
         return documentsDirectoryURL.URLByAppendingPathComponent(filename)
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
