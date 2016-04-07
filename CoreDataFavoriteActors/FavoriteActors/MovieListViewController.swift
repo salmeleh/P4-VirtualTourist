@@ -10,10 +10,10 @@ import UIKit
 import CoreData
 
 /**
-* Challenge Step 2: Convert Movie List to Fetched Results View Controller.
+* Challenge 2: Convert Movie List to Fetched Results View Controller.
 */
 
-// Step 5: The view controller should conform to the NSFetchedResultsController protocol
+// Step 5: The view controller should conform to NSFetchedResultsControllerDelegate
 class MovieListViewController : UITableViewController, NSFetchedResultsControllerDelegate {
     
     // This array needs to be replaced by a lazy fetchedResultsController property
@@ -33,10 +33,8 @@ class MovieListViewController : UITableViewController, NSFetchedResultsControlle
             try fetchedResultsController.performFetch()
         } catch {}
         
-        
         // Step 6: Set the delegate to this view controller
         fetchedResultsController.delegate = self
-
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -67,10 +65,6 @@ class MovieListViewController : UITableViewController, NSFetchedResultsControlle
                         dispatch_async(dispatch_get_main_queue()) {
                             self.tableView.reloadData()
                         }
-                        
-                        // Save the context
-                        self.saveContext()
-                        
                     } else {
                         let error = NSError(domain: "Movie for Person Parsing. Cant find cast in \(JSONResult)", code: 0, userInfo: nil)
                         print(error)
@@ -83,16 +77,13 @@ class MovieListViewController : UITableViewController, NSFetchedResultsControlle
     
     // MARK: - Core Data Convenience
     
-    lazy var sharedContext: NSManagedObjectContext =  {
+    var sharedContext: NSManagedObjectContext {
         return CoreDataStackManager.sharedInstance().managedObjectContext
-        }()
-    
-    func saveContext() {
-        CoreDataStackManager.sharedInstance().saveContext()
     }
     
     
     // Mark: - Fetched Results Controller
+    
     lazy var fetchedResultsController: NSFetchedResultsController = {
         
         let fetchRequest = NSFetchRequest(entityName: "Movie")
@@ -101,53 +92,54 @@ class MovieListViewController : UITableViewController, NSFetchedResultsControlle
         fetchRequest.predicate = NSPredicate(format: "actor == %@", self.actor);
         
         let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest,
-                                                                  managedObjectContext: self.sharedContext,
-                                                                  sectionNameKeyPath: nil,
-                                                                  cacheName: nil)
+            managedObjectContext: self.sharedContext,
+            sectionNameKeyPath: nil,
+            cacheName: nil)
         
         return fetchedResultsController
         
-    }()
-
-    
+        }()
     
     // MARK: - Table View
     
-    // Step 3: Update these three table view methods
-    
+    // Step 3: Update the three table view methods
+    // This is the trickiest. But it will be exactly the same in all three view controllers
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        //return actor.movies.count
         let sectionInfo = self.fetchedResultsController.sections![section]
+        
         return sectionInfo.numberOfObjects
     }
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let movie = fetchedResultsController.objectAtIndexPath(indexPath) as! Movie
-        let CellIdentifier = "MovieCell"
-        
-        let cell = tableView.dequeueReusableCellWithIdentifier(CellIdentifier) as! TaskCancelingTableViewCell
-        
-        // This is the new configureCell method
-        configureCell(cell, movie: movie)
-        
-        return cell
+    override func tableView(tableView: UITableView,
+        cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+            let CellIdentifier = "MovieCell"
+            
+            // Here is how to replace the actors array using objectAtIndexPath
+            let movie = fetchedResultsController.objectAtIndexPath(indexPath) as! Movie
+            
+            let cell = tableView.dequeueReusableCellWithIdentifier(CellIdentifier) as! TaskCancelingTableViewCell
+            
+            // This is the new configureCell method
+            configureCell(cell, movie: movie)
+            
+            return cell
     }
     
-    override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
-        
-        switch (editingStyle) {
-        case .Delete:
-            //actor.movies.removeAtIndex(indexPath.row)
-            //tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Fade)
+    override func tableView(tableView: UITableView,
+        commitEditingStyle editingStyle: UITableViewCellEditingStyle,
+        forRowAtIndexPath indexPath: NSIndexPath) {
             
-            let movie = fetchedResultsController.objectAtIndexPath(indexPath) as! Movie
-            sharedContext.deleteObject(movie)
-            CoreDataStackManager.sharedInstance().saveContext()
-            
-            
-        default:
-            break
-        }
+            switch (editingStyle) {
+            case .Delete:
+                
+                // Here we get the actor, then delete it from core data
+                let movie = fetchedResultsController.objectAtIndexPath(indexPath) as! Movie
+                sharedContext.deleteObject(movie)
+                CoreDataStackManager.sharedInstance().saveContext()
+                
+            default:
+                break
+            }
     }
     
     // MARK: - Fetched Results Controller Delegate
@@ -156,56 +148,55 @@ class MovieListViewController : UITableViewController, NSFetchedResultsControlle
     func controllerWillChangeContent(controller: NSFetchedResultsController) {
         self.tableView.beginUpdates()
     }
+    
     func controller(controller: NSFetchedResultsController,
-                    didChangeSection sectionInfo: NSFetchedResultsSectionInfo,
-                                     atIndex sectionIndex: Int,
-                                             forChangeType type: NSFetchedResultsChangeType) {
-        
-        switch type {
-        case .Insert:
-            self.tableView.insertSections(NSIndexSet(index: sectionIndex), withRowAnimation: .Fade)
+        didChangeSection sectionInfo: NSFetchedResultsSectionInfo,
+        atIndex sectionIndex: Int,
+        forChangeType type: NSFetchedResultsChangeType) {
             
-        case .Delete:
-            self.tableView.deleteSections(NSIndexSet(index: sectionIndex), withRowAnimation: .Fade)
-            
-        default:
-            return
-        }
+            switch type {
+            case .Insert:
+                self.tableView.insertSections(NSIndexSet(index: sectionIndex), withRowAnimation: .Fade)
+                
+            case .Delete:
+                self.tableView.deleteSections(NSIndexSet(index: sectionIndex), withRowAnimation: .Fade)
+                
+            default:
+                return
+            }
     }
+    
     //
     // This is the most interesting method. Take particular note of way the that newIndexPath
     // parameter gets unwrapped and put into an array literal: [newIndexPath!]
     //
     func controller(controller: NSFetchedResultsController,
-                    didChangeObject anObject: AnyObject,
-                                    atIndexPath indexPath: NSIndexPath?,
-                                                forChangeType type: NSFetchedResultsChangeType,
-                                                              newIndexPath: NSIndexPath?) {
-        
-        switch type {
-        case .Insert:
-            tableView.insertRowsAtIndexPaths([newIndexPath!], withRowAnimation: .Fade)
+        didChangeObject anObject: AnyObject,
+        atIndexPath indexPath: NSIndexPath?,
+        forChangeType type: NSFetchedResultsChangeType,
+        newIndexPath: NSIndexPath?) {
             
-        case .Delete:
-            tableView.deleteRowsAtIndexPaths([indexPath!], withRowAnimation: .Fade)
-            
-        case .Update:
-            let cell = tableView.cellForRowAtIndexPath(indexPath!) as! ActorTableViewCell
-            let movie = controller.objectAtIndexPath(indexPath!) as! Movie
-            self.configureCell(cell, movie: movie)
-            
-        case .Move:
-            tableView.deleteRowsAtIndexPaths([indexPath!], withRowAnimation: .Fade)
-            tableView.insertRowsAtIndexPaths([newIndexPath!], withRowAnimation: .Fade)
-            
-        default:
-            return
-        }
+            switch type {
+            case .Insert:
+                tableView.insertRowsAtIndexPaths([newIndexPath!], withRowAnimation: .Fade)
+                
+            case .Delete:
+                tableView.deleteRowsAtIndexPaths([indexPath!], withRowAnimation: .Fade)
+                
+            case .Update:
+                let cell = tableView.cellForRowAtIndexPath(indexPath!) as! ActorTableViewCell
+                let movie = controller.objectAtIndexPath(indexPath!) as! Movie
+                self.configureCell(cell, movie: movie)
+                
+            case .Move:
+                tableView.deleteRowsAtIndexPaths([indexPath!], withRowAnimation: .Fade)
+                tableView.insertRowsAtIndexPaths([newIndexPath!], withRowAnimation: .Fade)
+            }
     }
+    
     func controllerDidChangeContent(controller: NSFetchedResultsController) {
         self.tableView.endUpdates()
     }
-
     
     // MARK: - Configure Cell
     
@@ -257,3 +248,34 @@ class MovieListViewController : UITableViewController, NSFetchedResultsControlle
         cell.imageView!.image = posterImage
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

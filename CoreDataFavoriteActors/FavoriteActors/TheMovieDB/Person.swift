@@ -14,7 +14,7 @@ import UIKit
  * 2. Make Person a subclass of NSManagedObject
  * 3. Add @NSManaged in front of each of the properties/attributes
  * 4. Include the standard Core Data init method, which inserts the object into a context
- * 5. Write an init method that takes a dictionary and a context. This the biggest chagne to the class
+ * 5. Write an init method that takes a dictionary and a context. This is the biggest change to the class
  */
 
 // 1. Import CoreData
