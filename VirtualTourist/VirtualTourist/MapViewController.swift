@@ -14,13 +14,10 @@ class MapViewController: UIViewController, MKMapViewDelegate, NSFetchedResultsCo
 
     
     @IBOutlet weak var mapView: MKMapView!
-    @IBOutlet weak var loadingWheel: UIActivityIndicatorView!
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        loadingWheel.hidesWhenStopped = true
         restoreMapRegion(false)
         
         
