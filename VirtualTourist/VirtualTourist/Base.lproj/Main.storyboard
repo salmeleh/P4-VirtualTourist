@@ -20,10 +20,6 @@
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="TAP-9y-k3v">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                             </mapView>
-                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="lox-1l-rim">
-                                <rect key="frame" x="282" y="281" width="37" height="37"/>
-                                <color key="color" red="0.0" green="0.50196081400000003" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
@@ -35,7 +31,6 @@
                     </view>
                     <navigationItem key="navigationItem" id="QYS-uT-P2f"/>
                     <connections>
-                        <outlet property="loadingWheel" destination="lox-1l-rim" id="ujs-9w-yTj"/>
                         <outlet property="mapView" destination="TAP-9y-k3v" id="IGc-ac-x8z"/>
                         <segue destination="UJK-Gj-fiS" kind="show" identifier="showPAVC" id="eOT-Gt-a8B"/>
                     </connections>
