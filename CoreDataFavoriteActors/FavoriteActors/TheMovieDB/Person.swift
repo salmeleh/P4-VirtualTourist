@@ -25,6 +25,7 @@ class Person : NSManagedObject {
     
     struct Keys {
         static let Name = "name"
+        
         static let ProfilePath = "profile_path"
         static let Movies = "movies"
         static let ID = "id"

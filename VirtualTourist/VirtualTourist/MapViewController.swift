@@ -19,12 +19,9 @@ class MapViewController: UIViewController, MKMapViewDelegate, NSFetchedResultsCo
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
         
         loadingWheel.hidesWhenStopped = true
-        // set initial location in Chicago
-        let initialLocation = CLLocation(latitude: 41.881832, longitude: -87.623177)
-        centerMapOnLocation(initialLocation)
+        restoreMapRegion(false)
         
         
         let lpgr = UILongPressGestureRecognizer(target: self, action: #selector(MapViewController.handleLongPress(_:)))
@@ -34,45 +31,95 @@ class MapViewController: UIViewController, MKMapViewDelegate, NSFetchedResultsCo
         mapView.addGestureRecognizer(lpgr)
         
         
-//        // Step 2: invoke fetchedResultsController.performFetch(nil) here
-//        do {
-//            try fetchedResultsController.performFetch()
-//        } catch {}
-        
-        
         self.mapView.delegate = self
         
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    
+    //////MemoryMapMethods/////
+    var filePath : String {
+        let manager = NSFileManager.defaultManager()
+        let url = manager.URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask).first! as NSURL
+        return url.URLByAppendingPathComponent("mapRegionArchive").path!
     }
-
-//    // MARK: - Core Data Convenience. This will be useful for fetching. And for adding and saving objects as well.
-//    var sharedContext: NSManagedObjectContext {
-//        return CoreDataStackManager.sharedInstance().managedObjectContext
-//    }
-//    
-//    // Step 1 - Add the lazy fetchedResultsController property. See the reference sheet in the lesson if you
-//    // want additional help creating this property.
-//    lazy var fetchedResultsController: NSFetchedResultsController = {
-//        
-//        let fetchRequest = NSFetchRequest(entityName: "Person")
-//        
-//        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
-//        
-//        let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest,
-//                                                                  managedObjectContext: self.sharedContext,
-//                                                                  sectionNameKeyPath: nil,
-//                                                                  cacheName: nil)
-//        
-//        return fetchedResultsController
-//        
-//    }()
-
+    
+    func saveMapRegion() {
+        // Place the "center" and "span" of the map into a dictionary
+        // The "span" is the width and height of the map in degrees.
+        // It represents the zoom level of the map.
+        
+        let dictionary = [
+            "latitude" : mapView.region.center.latitude,
+            "longitude" : mapView.region.center.longitude,
+            "latitudeDelta" : mapView.region.span.latitudeDelta,
+            "longitudeDelta" : mapView.region.span.longitudeDelta
+        ]
+        
+        
+        // Archive the dictionary into the filePath
+        NSKeyedArchiver.archiveRootObject(dictionary, toFile: filePath)
+    }
+    
+    func restoreMapRegion(animated: Bool) {
+        // if we can unarchive a dictionary, we will use it to set the map back to its
+        // previous center and span
+        if let regionDictionary = NSKeyedUnarchiver.unarchiveObjectWithFile(filePath) as? [String : AnyObject] {
+            
+            let longitude = regionDictionary["longitude"] as! CLLocationDegrees
+            let latitude = regionDictionary["latitude"] as! CLLocationDegrees
+            let center = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+            
+            let longitudeDelta = regionDictionary["latitudeDelta"] as! CLLocationDegrees
+            let latitudeDelta = regionDictionary["longitudeDelta"] as! CLLocationDegrees
+            let span = MKCoordinateSpan(latitudeDelta: latitudeDelta, longitudeDelta: longitudeDelta)
+            
+            let savedRegion = MKCoordinateRegion(center: center, span: span)
+            
+            //print("lat: \(latitude), lon: \(longitude), latD: \(latitudeDelta), lonD: \(longitudeDelta)")
+            
+            mapView.setRegion(savedRegion, animated: animated)
+        }
+    }
+    /////////////
+    
+    
+    
 
     //MKMapViewDelegate methods
+    func mapView(mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
+        saveMapRegion()
+    }
+    
+    
+    func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
+        if annotation is MKUserLocation {
+            return nil
+        }
+        
+        let reuseId = "pin"
+        var pinView = mapView.dequeueReusableAnnotationViewWithIdentifier(reuseId) as? MKPinAnnotationView
+        if pinView == nil {
+            pinView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: reuseId)
+            pinView?.animatesDrop = true
+            pinView?.canShowCallout = true
+            //pinView?.draggable = true
+            //pinView?.pinTintColor = .Purple
+            
+            let rightButton: AnyObject! = UIButton(type: UIButtonType.DetailDisclosure)
+            pinView?.rightCalloutAccessoryView = rightButton as? UIView
+        }
+        else {
+            pinView?.annotation = annotation
+        }
+        
+        return pinView
+    }
+    
+    func mapView(mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
+        if control == view.rightCalloutAccessoryView {
+            performSegueWithIdentifier("showPAVC", sender: self)
+        }
+    }
     
     
     
@@ -87,20 +134,10 @@ class MapViewController: UIViewController, MKMapViewDelegate, NSFetchedResultsCo
         
         let annotation = MKPointAnnotation()
         annotation.coordinate = touchMapCoordinate
+        annotation.title = "\(touchMapCoordinate)/"
         
         mapView.addAnnotation(annotation)
     }
-    
-    
-    
-    
-    //radius helper
-    let regionRadius: CLLocationDistance = 10000
-    func centerMapOnLocation(location: CLLocation) {
-        let coordinateRegion = MKCoordinateRegionMakeWithDistance(location.coordinate,
-                                                                  regionRadius * 2.0, regionRadius * 2.0)
-        mapView.setRegion(coordinateRegion, animated: true)
-    }
-    
+
 }
 

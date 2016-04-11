@@ -36,6 +36,7 @@
                     <connections>
                         <outlet property="loadingWheel" destination="lox-1l-rim" id="ujs-9w-yTj"/>
                         <outlet property="mapView" destination="TAP-9y-k3v" id="IGc-ac-x8z"/>
+                        <segue destination="UJK-Gj-fiS" kind="show" identifier="showPAVC" id="eOT-Gt-a8B"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

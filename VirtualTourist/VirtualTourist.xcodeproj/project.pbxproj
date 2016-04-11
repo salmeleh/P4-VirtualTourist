@@ -15,6 +15,8 @@
 		200FD5641CBBE3E000B982F1 /* VirtualTouristTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 200FD5631CBBE3E000B982F1 /* VirtualTouristTests.swift */; };
 		200FD56F1CBBE3E000B982F1 /* VirtualTouristUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 200FD56E1CBBE3E000B982F1 /* VirtualTouristUITests.swift */; };
 		200FD57F1CBBFBDD00B982F1 /* CoreDataStackManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 200FD57E1CBBFBDD00B982F1 /* CoreDataStackManager.swift */; };
+		200FD5811CBBFD2100B982F1 /* Pin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 200FD5801CBBFD2100B982F1 /* Pin.swift */; };
+		200FD5831CBC014700B982F1 /* PhotoAlbumViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 200FD5821CBC014700B982F1 /* PhotoAlbumViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +51,8 @@
 		200FD56E1CBBE3E000B982F1 /* VirtualTouristUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VirtualTouristUITests.swift; sourceTree = "<group>"; };
 		200FD5701CBBE3E000B982F1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		200FD57E1CBBFBDD00B982F1 /* CoreDataStackManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataStackManager.swift; sourceTree = "<group>"; };
+		200FD5801CBBFD2100B982F1 /* Pin.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Pin.swift; sourceTree = "<group>"; };
+		200FD5821CBC014700B982F1 /* PhotoAlbumViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoAlbumViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -132,6 +136,7 @@
 			isa = PBXGroup;
 			children = (
 				200FD5501CBBE3E000B982F1 /* MapViewController.swift */,
+				200FD5821CBC014700B982F1 /* PhotoAlbumViewController.swift */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -140,6 +145,7 @@
 			isa = PBXGroup;
 			children = (
 				200FD54E1CBBE3E000B982F1 /* AppDelegate.swift */,
+				200FD5801CBBFD2100B982F1 /* Pin.swift */,
 			);
 			name = Modal;
 			sourceTree = "<group>";
@@ -279,6 +285,8 @@
 				200FD5511CBBE3E000B982F1 /* MapViewController.swift in Sources */,
 				200FD54F1CBBE3E000B982F1 /* AppDelegate.swift in Sources */,
 				200FD57F1CBBFBDD00B982F1 /* CoreDataStackManager.swift in Sources */,
+				200FD5831CBC014700B982F1 /* PhotoAlbumViewController.swift in Sources */,
+				200FD5811CBBFD2100B982F1 /* Pin.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
