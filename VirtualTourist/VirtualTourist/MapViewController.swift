@@ -32,10 +32,38 @@ class MapViewController: UIViewController, MKMapViewDelegate, NSFetchedResultsCo
         mapView.addGestureRecognizer(lpgr)
         
         
+        // Step 2: Perform the fetch
+        do {
+            try fetchedResultsController.performFetch()
+        } catch {}
+        
         self.mapView.delegate = self
         
+        //displaySavedPins()
     }
 
+    
+    var sharedContext: NSManagedObjectContext {
+        return CoreDataStackManager.sharedInstance().managedObjectContext
+    }
+    
+    
+    lazy var fetchedResultsController: NSFetchedResultsController = {
+        
+        let fetchRequest = NSFetchRequest(entityName: "Pin")
+        
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "title", ascending: true)]
+        
+        let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest,
+                                                                  managedObjectContext: self.sharedContext,
+                                                                  sectionNameKeyPath: nil,
+                                                                  cacheName: nil)
+        
+        return fetchedResultsController
+    }()
+
+    
+    
     
     //////MemoryMapMethods/////
     var filePath : String {
@@ -55,7 +83,6 @@ class MapViewController: UIViewController, MKMapViewDelegate, NSFetchedResultsCo
             "latitudeDelta" : mapView.region.span.latitudeDelta,
             "longitudeDelta" : mapView.region.span.longitudeDelta
         ]
-        
         
         // Archive the dictionary into the filePath
         NSKeyedArchiver.archiveRootObject(dictionary, toFile: filePath)
@@ -84,7 +111,6 @@ class MapViewController: UIViewController, MKMapViewDelegate, NSFetchedResultsCo
     /////////////
     
     
-    
 
     //MKMapViewDelegate methods
     func mapView(mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
@@ -103,8 +129,8 @@ class MapViewController: UIViewController, MKMapViewDelegate, NSFetchedResultsCo
             pinView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: reuseId)
             pinView?.animatesDrop = true
             pinView?.canShowCallout = true
-            //pinView?.draggable = true
-            //pinView?.pinTintColor = .Purple
+            //pinView?.draggable = false
+            //pinView?.pinTintColor = .Red
             
             let rightButton: AnyObject! = UIButton(type: UIButtonType.DetailDisclosure)
             pinView?.rightCalloutAccessoryView = rightButton as? UIView
@@ -122,6 +148,15 @@ class MapViewController: UIViewController, MKMapViewDelegate, NSFetchedResultsCo
         }
     }
     
+    func displaySavedPins() {
+        if let section = fetchedResultsController.sections?.first?.objects as? [Pin] {
+            var savedAnnotations = [Pin]()
+            for pin in section {
+                savedAnnotations.append(pin)
+            }
+            mapView.addAnnotations(savedAnnotations)
+        }
+    }
     
     
     //long press gesture recognizer function
@@ -137,6 +172,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, NSFetchedResultsCo
         let annotation = MKPointAnnotation()
         annotation.coordinate = touchMapCoordinate
         
+        //reverse geocode the city for the pin annotation
         let geoCoder = CLGeocoder()
         let location = CLLocation(latitude: touchMapCoordinate.latitude, longitude: touchMapCoordinate.longitude)
         geoCoder.reverseGeocodeLocation(location, completionHandler: { (placemarks, error) -> Void in
@@ -161,9 +197,29 @@ class MapViewController: UIViewController, MKMapViewDelegate, NSFetchedResultsCo
             }
         })
     
-        //annotation.title = "\(touchMapCoordinate)/"
         
+        //define/add dictionary for pin
+        let dictionary: [String : AnyObject] = [
+            "latitude" : touchMapCoordinate.latitude,
+            "longitude" : touchMapCoordinate.longitude,
+            ]
+    
+        let pin = Pin(dictionary: dictionary, context: CoreDataStackManager.sharedInstance().managedObjectContext)
+    
+        //add pin to the map
         mapView.addAnnotation(annotation)
+        
+        
+        //download pictures
+        if pin.photos.isEmpty {
+            print("preloading photos")
+            //getPhotosByLatLon
+        }
+        
+        
+        
+        //save the context
+        CoreDataStackManager.sharedInstance().saveContext()
     }
 
 }
