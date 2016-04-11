@@ -134,7 +134,33 @@ class MapViewController: UIViewController, MKMapViewDelegate, NSFetchedResultsCo
         
         let annotation = MKPointAnnotation()
         annotation.coordinate = touchMapCoordinate
-        annotation.title = "\(touchMapCoordinate)/"
+        
+        let geoCoder = CLGeocoder()
+        let location = CLLocation(latitude: touchMapCoordinate.latitude, longitude: touchMapCoordinate.longitude)
+        geoCoder.reverseGeocodeLocation(location, completionHandler: { (placemarks, error) -> Void in
+            print(location)
+            
+            // Place details
+            var placeMark: CLPlacemark!
+            placeMark = placemarks?[0]
+            
+            if error != nil {
+                print("Reverse geocoder failed with error" + error!.localizedDescription)
+                return
+            }
+            
+            // City
+            if let city = placeMark.addressDictionary!["City"] as? NSString {
+                print(city)
+                annotation.title = city as String
+            }
+                
+            else {
+                print("Problem with the data received from geocoder")
+            }
+        })
+    
+        //annotation.title = "\(touchMapCoordinate)/"
         
         mapView.addAnnotation(annotation)
     }
