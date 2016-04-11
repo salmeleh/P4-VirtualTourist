@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "20254AF01CBBD6DC00253879"
+               BlueprintIdentifier = "200FD54A1CBBE3E000B982F1"
                BuildableName = "VirtualTourist.app"
                BlueprintName = "VirtualTourist"
                ReferencedContainer = "container:VirtualTourist.xcodeproj">
@@ -32,7 +32,7 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "20254B061CBBD6DC00253879"
+               BlueprintIdentifier = "200FD55E1CBBE3E000B982F1"
                BuildableName = "VirtualTouristTests.xctest"
                BlueprintName = "VirtualTouristTests"
                ReferencedContainer = "container:VirtualTourist.xcodeproj">
@@ -42,7 +42,7 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "20254B111CBBD6DC00253879"
+               BlueprintIdentifier = "200FD5691CBBE3E000B982F1"
                BuildableName = "VirtualTouristUITests.xctest"
                BlueprintName = "VirtualTouristUITests"
                ReferencedContainer = "container:VirtualTourist.xcodeproj">
@@ -52,7 +52,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "20254AF01CBBD6DC00253879"
+            BlueprintIdentifier = "200FD54A1CBBE3E000B982F1"
             BuildableName = "VirtualTourist.app"
             BlueprintName = "VirtualTourist"
             ReferencedContainer = "container:VirtualTourist.xcodeproj">
@@ -75,7 +75,7 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "20254AF01CBBD6DC00253879"
+            BlueprintIdentifier = "200FD54A1CBBE3E000B982F1"
             BuildableName = "VirtualTourist.app"
             BlueprintName = "VirtualTourist"
             ReferencedContainer = "container:VirtualTourist.xcodeproj">
@@ -94,7 +94,7 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "20254AF01CBBD6DC00253879"
+            BlueprintIdentifier = "200FD54A1CBBE3E000B982F1"
             BuildableName = "VirtualTourist.app"
             BlueprintName = "VirtualTourist"
             ReferencedContainer = "container:VirtualTourist.xcodeproj">
