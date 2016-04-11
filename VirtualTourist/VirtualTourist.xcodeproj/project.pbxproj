@@ -14,6 +14,7 @@
 		200FD5591CBBE3E000B982F1 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 200FD5571CBBE3E000B982F1 /* LaunchScreen.storyboard */; };
 		200FD5641CBBE3E000B982F1 /* VirtualTouristTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 200FD5631CBBE3E000B982F1 /* VirtualTouristTests.swift */; };
 		200FD56F1CBBE3E000B982F1 /* VirtualTouristUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 200FD56E1CBBE3E000B982F1 /* VirtualTouristUITests.swift */; };
+		200FD57F1CBBFBDD00B982F1 /* CoreDataStackManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 200FD57E1CBBFBDD00B982F1 /* CoreDataStackManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,6 +48,7 @@
 		200FD56A1CBBE3E000B982F1 /* VirtualTouristUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = VirtualTouristUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		200FD56E1CBBE3E000B982F1 /* VirtualTouristUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VirtualTouristUITests.swift; sourceTree = "<group>"; };
 		200FD5701CBBE3E000B982F1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		200FD57E1CBBFBDD00B982F1 /* CoreDataStackManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataStackManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -103,6 +105,7 @@
 				200FD5551CBBE3E000B982F1 /* Assets.xcassets */,
 				200FD5571CBBE3E000B982F1 /* LaunchScreen.storyboard */,
 				200FD55A1CBBE3E000B982F1 /* Info.plist */,
+				200FD57E1CBBFBDD00B982F1 /* CoreDataStackManager.swift */,
 			);
 			path = VirtualTourist;
 			sourceTree = "<group>";
@@ -209,6 +212,7 @@
 				TargetAttributes = {
 					200FD54A1CBBE3E000B982F1 = {
 						CreatedOnToolsVersion = 7.3;
+						DevelopmentTeam = 754VQGA8M8;
 					};
 					200FD55E1CBBE3E000B982F1 = {
 						CreatedOnToolsVersion = 7.3;
@@ -274,6 +278,7 @@
 			files = (
 				200FD5511CBBE3E000B982F1 /* MapViewController.swift in Sources */,
 				200FD54F1CBBE3E000B982F1 /* AppDelegate.swift in Sources */,
+				200FD57F1CBBFBDD00B982F1 /* CoreDataStackManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -417,10 +422,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = VirtualTourist/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = salmeleh.VirtualTourist;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Debug;
 		};
@@ -428,10 +436,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = VirtualTourist/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = salmeleh.VirtualTourist;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Release;
 		};
