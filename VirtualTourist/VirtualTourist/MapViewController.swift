@@ -18,9 +18,13 @@ class MapViewController: UIViewController, MKMapViewDelegate, NSFetchedResultsCo
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        //Hide the navigation bar
+        self.navigationController?.setNavigationBarHidden(true, animated: false)
+        
+        //persist map
         restoreMapRegion(false)
         
-        
+        //add gesture recognizer
         let lpgr = UILongPressGestureRecognizer(target: self, action: #selector(MapViewController.handleLongPress(_:)))
         lpgr.minimumPressDuration = 0.5
         lpgr.delaysTouchesBegan = true
