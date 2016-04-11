@@ -123,7 +123,8 @@ class MapViewController: UIViewController, MKMapViewDelegate, NSFetchedResultsCo
     
     
     
-    //long press gesture function
+    //long press gesture recognizer function
+    //drops pin and adds annotation city
     func handleLongPress(gestureRecognizer : UIGestureRecognizer){
         if gestureRecognizer.state != UIGestureRecognizerState.Ended {
             return
@@ -138,7 +139,6 @@ class MapViewController: UIViewController, MKMapViewDelegate, NSFetchedResultsCo
         let geoCoder = CLGeocoder()
         let location = CLLocation(latitude: touchMapCoordinate.latitude, longitude: touchMapCoordinate.longitude)
         geoCoder.reverseGeocodeLocation(location, completionHandler: { (placemarks, error) -> Void in
-            print(location)
             
             // Place details
             var placeMark: CLPlacemark!
