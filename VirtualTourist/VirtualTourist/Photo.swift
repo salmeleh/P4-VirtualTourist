@@ -14,10 +14,14 @@ class Photo: NSManagedObject {
     
     struct Keys {
         static let urlPath = "urlPath"
+        static let ID = "id"
+        static let Name = "title"
     }
     
     @NSManaged var pin: Pin?
     @NSManaged var urlPath: String?
+    @NSManaged var id: NSNumber
+    @NSManaged var name: String
     
     override init(entity: NSEntityDescription, insertIntoManagedObjectContext context: NSManagedObjectContext?) {
         super.init(entity: entity, insertIntoManagedObjectContext: context)
@@ -27,6 +31,8 @@ class Photo: NSManagedObject {
         let entity =  NSEntityDescription.entityForName("Pin", inManagedObjectContext: context)!
         super.init(entity: entity,insertIntoManagedObjectContext: context)
         urlPath = dictionary[Keys.urlPath] as? String
+        id = Int((dictionary[Keys.ID] as? String)!)!
+        name = dictionary[Keys.Name] as! String
     }
     
     

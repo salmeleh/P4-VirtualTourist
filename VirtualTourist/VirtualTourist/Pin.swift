@@ -18,8 +18,8 @@ class Pin: NSManagedObject, MKAnnotation {
         static let Longitude = "longitude"
     }
     
-    @NSManaged var latitude: CLLocationDegrees
-    @NSManaged var longitude: CLLocationDegrees
+    @NSManaged var latitude: Double
+    @NSManaged var longitude: Double
     @NSManaged var photos: [Photo]
     
     
@@ -36,8 +36,8 @@ class Pin: NSManagedObject, MKAnnotation {
     init(dictionary: [String : AnyObject], context: NSManagedObjectContext) {
         let entity =  NSEntityDescription.entityForName("Pin", inManagedObjectContext: context)!
         super.init(entity: entity,insertIntoManagedObjectContext: context)
-        latitude = dictionary[Keys.Latitude] as! CLLocationDegrees
-        longitude = dictionary[Keys.Longitude] as! CLLocationDegrees
+        latitude = dictionary[Keys.Latitude] as! Double
+        longitude = dictionary[Keys.Longitude] as! Double
     }
     
     

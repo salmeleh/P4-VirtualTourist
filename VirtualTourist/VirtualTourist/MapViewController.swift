@@ -13,7 +13,17 @@ import CoreData
 class MapViewController: UIViewController, MKMapViewDelegate, NSFetchedResultsControllerDelegate {
     
     @IBOutlet weak var mapView: MKMapView!
+    
     var pins = [Pin]()
+    
+    let savedLonSpan = "Saved Longitude Span"
+    let savedLatSpan = "Saved Latitude Span"
+    let savedLat = "Saved Latitude"
+    let savedLon = "Saved Longitude"
+    var lon : Double = 0.0
+    var lat : Double = 0.0
+    var latDelta : Double = 0.0
+    var lonDelta : Double = 0.0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,8 +31,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, NSFetchedResultsCo
         //Hide the navigation bar
         self.navigationController?.setNavigationBarHidden(true, animated: false)
         
-        //persist map
-        restoreMapRegion(false)
+        initMap()
         
         //add gesture recognizer
         let lpgr = UILongPressGestureRecognizer(target: self, action: #selector(MapViewController.handleLongPress(_:)))
@@ -35,8 +44,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, NSFetchedResultsCo
         pins = fetchAllPins()
         
         self.mapView.delegate = self
-        
-        //displaySavedPins()
+    
     }
 
     
@@ -54,60 +62,36 @@ class MapViewController: UIViewController, MKMapViewDelegate, NSFetchedResultsCo
             return [Pin]()
         }
     }
-
     
     
     
-    //////MemoryMapMethods/////
-    var filePath : String {
-        let manager = NSFileManager.defaultManager()
-        let url = manager.URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask).first! as NSURL
-        return url.URLByAppendingPathComponent("mapRegionArchive").path!
-    }
-    
-    func saveMapRegion() {
-        // Place the "center" and "span" of the map into a dictionary
-        // The "span" is the width and height of the map in degrees.
-        // It represents the zoom level of the map.
+    //MAP SETUP & MKMapViewDelegate methods
+    func initMap() {
+        lonDelta = NSUserDefaults.standardUserDefaults().doubleForKey(savedLonSpan)
+        latDelta = NSUserDefaults.standardUserDefaults().doubleForKey(savedLatSpan)
+        lon = NSUserDefaults.standardUserDefaults().doubleForKey(savedLon)
+        lat = NSUserDefaults.standardUserDefaults().doubleForKey(savedLat)
         
-        let dictionary = [
-            "latitude" : mapView.region.center.latitude,
-            "longitude" : mapView.region.center.longitude,
-            "latitudeDelta" : mapView.region.span.latitudeDelta,
-            "longitudeDelta" : mapView.region.span.longitudeDelta
-        ]
-        
-        // Archive the dictionary into the filePath
-        NSKeyedArchiver.archiveRootObject(dictionary, toFile: filePath)
-    }
-    
-    func restoreMapRegion(animated: Bool) {
-        // if we can unarchive a dictionary, we will use it to set the map back to its
-        // previous center and span
-        if let regionDictionary = NSKeyedUnarchiver.unarchiveObjectWithFile(filePath) as? [String : AnyObject] {
-            
-            let longitude = regionDictionary["longitude"] as! CLLocationDegrees
-            let latitude = regionDictionary["latitude"] as! CLLocationDegrees
-            let center = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
-            
-            let longitudeDelta = regionDictionary["latitudeDelta"] as! CLLocationDegrees
-            let latitudeDelta = regionDictionary["longitudeDelta"] as! CLLocationDegrees
-            let span = MKCoordinateSpan(latitudeDelta: latitudeDelta, longitudeDelta: longitudeDelta)
-            
-            let savedRegion = MKCoordinateRegion(center: center, span: span)
-            
-            //print("lat: \(latitude), lon: \(longitude), latD: \(latitudeDelta), lonD: \(longitudeDelta)")
-            
-            mapView.setRegion(savedRegion, animated: animated)
+        if !(lat == 0 && lon == 0) {
+            setRegion()
         }
     }
-    /////////////
     
+    func setRegion() -> MKCoordinateRegion {
+        let span = MKCoordinateSpanMake(latDelta, lonDelta)
+        let location = CLLocationCoordinate2D(latitude: lat, longitude: lon)
+        let region = MKCoordinateRegionMake(location, span)
+        mapView.setRegion(region, animated: false)
+        return region
+    }
     
-
-    //MKMapViewDelegate methods
     func mapView(mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
-        saveMapRegion()
+        NSUserDefaults.standardUserDefaults().setDouble(mapView.region.span.longitudeDelta, forKey: savedLonSpan)
+        NSUserDefaults.standardUserDefaults().setDouble(mapView.region.span.latitudeDelta, forKey: savedLatSpan)
+        NSUserDefaults.standardUserDefaults().setDouble(mapView.region.center.longitude, forKey: savedLon)
+        NSUserDefaults.standardUserDefaults().setDouble(mapView.region.center.latitude, forKey: savedLat)
+        
+        initMap()
     }
     
     
