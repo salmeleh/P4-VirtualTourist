@@ -58,7 +58,6 @@
         <!--Collection View Controller-->
         <scene sceneID="kU9-lD-48S">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="fFX-U3-9Ut" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <collectionViewController id="UJK-Gj-fiS" sceneMemberID="viewController">
                     <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="d1M-eE-1Li">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
@@ -103,6 +102,7 @@
                     </toolbarItems>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                 </collectionViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="fFX-U3-9Ut" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1276" y="400"/>
         </scene>

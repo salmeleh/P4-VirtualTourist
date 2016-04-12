@@ -33,20 +33,31 @@ class MapViewController: UIViewController, MKMapViewDelegate, NSFetchedResultsCo
         
         initMap()
         
-        //add gesture recognizer
-        let lpgr = UILongPressGestureRecognizer(target: self, action: #selector(MapViewController.handleLongPress(_:)))
-        lpgr.minimumPressDuration = 0.5
-        lpgr.delaysTouchesBegan = true
-        //lpgr.delegate = self
-        mapView.addGestureRecognizer(lpgr)
+        let longPressRecogniser = UILongPressGestureRecognizer(target: self, action: "handleLongPress:")
+        longPressRecogniser.minimumPressDuration = 0.5
+        mapView.addGestureRecognizer(longPressRecogniser)
+        
+        mapView.delegate = self
+        restoreSavedPinsToMap()
         
         
-        pins = fetchAllPins()
-        
-        self.mapView.delegate = self
-    
     }
 
+    
+    func restoreSavedPinsToMap() {
+        pins = fetchAllPins()
+        print("Pin count in core data is \(pins.count)")
+        
+        for pin in pins {
+            
+            let annotation = MKPointAnnotation()
+            annotation.coordinate = pin.coordinate
+            annotation.title = pin.title
+            mapView.addAnnotation(annotation)
+        }
+    }
+    
+    
     
     //CORE DATA
     lazy var sharedContext: NSManagedObjectContext =  {
@@ -58,7 +69,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, NSFetchedResultsCo
         do {
             return try sharedContext.executeFetchRequest(fetchRequest) as! [Pin]
         } catch let error as NSError {
-            print("Error in fetchAllActors(): \(error)")
+            print("Error in fetchAllPins(): \(error)")
             return [Pin]()
         }
     }
@@ -78,7 +89,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, NSFetchedResultsCo
     }
     
     func setRegion() -> MKCoordinateRegion {
-        //get user location maybe
+        //get user location... maybe
         
         let span = MKCoordinateSpanMake(latDelta, lonDelta)
         let location = CLLocationCoordinate2D(latitude: lat, longitude: lon)
@@ -87,6 +98,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, NSFetchedResultsCo
         return region
     }
     
+    //save new mapView if changed
     func mapView(mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
         NSUserDefaults.standardUserDefaults().setDouble(mapView.region.span.longitudeDelta, forKey: savedLonSpan)
         NSUserDefaults.standardUserDefaults().setDouble(mapView.region.span.latitudeDelta, forKey: savedLatSpan)
@@ -96,11 +108,59 @@ class MapViewController: UIViewController, MKMapViewDelegate, NSFetchedResultsCo
         initMap()
     }
     
+
+    
+    //gesture recognizer function
+    //drops pin and adds annotation city
+    func handleLongPress(getstureRecognizer : UIGestureRecognizer){
+        
+        if getstureRecognizer.state != .Began { return }
+        
+        let touchPoint = getstureRecognizer.locationInView(self.mapView)
+        let touchMapCoordinate = mapView.convertPoint(touchPoint, toCoordinateFromView: mapView)
+        
+        let annotation = MKPointAnnotation()
+        annotation.coordinate = touchMapCoordinate
+        
+        let newPin = Pin(annotationLatitude: annotation.coordinate.latitude, annotationLongitude: annotation.coordinate.longitude, context: sharedContext)
+        
+        //CoreDataStackManager.sharedInstance().saveContext()
+        
+        //reverse geocode the city for the pin annotation
+                let geoCoder = CLGeocoder()
+                let location = CLLocation(latitude: touchMapCoordinate.latitude, longitude: touchMapCoordinate.longitude)
+                geoCoder.reverseGeocodeLocation(location, completionHandler: { (placemarks, error) -> Void in
+        
+                    // Place details
+                    var placeMark: CLPlacemark!
+                    placeMark = placemarks?[0]
+        
+                    if error != nil {
+                    print("Reverse geocoder failed with error" + error!.localizedDescription)
+                        return
+                    }
+        
+                    // City
+                    if let city = placeMark.addressDictionary!["City"] as? NSString {
+                        print(city)
+                        annotation.title = city as String
+                    }
+        
+                    else {
+                        print("Problem with the data received from geocoder")
+                    }
+                })
+        
+        pins.append(newPin)
+        mapView.addAnnotation(annotation)
+        
+        CoreDataStackManager.sharedInstance().saveContext()
+
+        
+    }
+    
     
     func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
-        if annotation is MKUserLocation {
-            return nil
-        }
         
         let reuseId = "pin"
         var pinView = mapView.dequeueReusableAnnotationViewWithIdentifier(reuseId) as? MKPinAnnotationView
@@ -128,69 +188,10 @@ class MapViewController: UIViewController, MKMapViewDelegate, NSFetchedResultsCo
     }
     
     
+
     
-    //long press gesture recognizer function
-    //drops pin and adds annotation city
-    func handleLongPress(gestureRecognizer : UIGestureRecognizer){
-        if gestureRecognizer.state != UIGestureRecognizerState.Ended {
-            return
-        }
-        
-        let touchPoint = gestureRecognizer.locationInView(self.mapView)
-        let touchMapCoordinate = mapView.convertPoint(touchPoint, toCoordinateFromView: mapView)
-        
-        let annotation = MKPointAnnotation()
-        annotation.coordinate = touchMapCoordinate
-        
-        //reverse geocode the city for the pin annotation
-        let geoCoder = CLGeocoder()
-        let location = CLLocation(latitude: touchMapCoordinate.latitude, longitude: touchMapCoordinate.longitude)
-        geoCoder.reverseGeocodeLocation(location, completionHandler: { (placemarks, error) -> Void in
-            
-            // Place details
-            var placeMark: CLPlacemark!
-            placeMark = placemarks?[0]
-            
-            if error != nil {
-                print("Reverse geocoder failed with error" + error!.localizedDescription)
-                return
-            }
-            
-            // City
-            if let city = placeMark.addressDictionary!["City"] as? NSString {
-                print(city)
-                annotation.title = city as String
-            }
-                
-            else {
-                print("Problem with the data received from geocoder")
-            }
-        })
     
-        
-        //define/add dictionary for pin
-        let dictionary: [String : AnyObject] = [
-            "latitude" : touchMapCoordinate.latitude,
-            "longitude" : touchMapCoordinate.longitude,
-            ]
     
-        let pin = Pin(dictionary: dictionary, context: CoreDataStackManager.sharedInstance().managedObjectContext)
-    
-        //add pin to the map
-        mapView.addAnnotation(annotation)
-        
-        
-        //download pictures
-        if pin.photos.isEmpty {
-            print("preloading photos")
-            //getPhotosByLatLon
-        }
-        
-        
-        
-        //save the context
-        CoreDataStackManager.sharedInstance().saveContext()
-    }
 
 }
 
