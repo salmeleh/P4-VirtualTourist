@@ -189,7 +189,12 @@ class MapViewController: UIViewController, MKMapViewDelegate, NSFetchedResultsCo
         }
     }
     
-    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if (segue.identifier == "showPAVC") {
+            let viewController = segue.destinationViewController as! PhotoAlbumViewController
+            viewController.pin = selectedPin
+        }
+    }
 
     
     
