@@ -15,6 +15,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, NSFetchedResultsCo
     @IBOutlet weak var mapView: MKMapView!
     
     var pins = [Pin]()
+    var selectedPin: Pin? = nil
     
     let savedLonSpan = "Saved Longitude Span"
     let savedLatSpan = "Saved Latitude Span"
@@ -114,7 +115,9 @@ class MapViewController: UIViewController, MKMapViewDelegate, NSFetchedResultsCo
     //drops pin and adds annotation city
     func handleLongPress(getstureRecognizer : UIGestureRecognizer){
         
-        if getstureRecognizer.state != .Began { return }
+        if getstureRecognizer.state != .Began {
+            return
+        }
         
         let touchPoint = getstureRecognizer.locationInView(self.mapView)
         let touchMapCoordinate = mapView.convertPoint(touchPoint, toCoordinateFromView: mapView)
@@ -122,10 +125,12 @@ class MapViewController: UIViewController, MKMapViewDelegate, NSFetchedResultsCo
         let annotation = MKPointAnnotation()
         annotation.coordinate = touchMapCoordinate
         
-        let newPin = Pin(annotationLatitude: annotation.coordinate.latitude, annotationLongitude: annotation.coordinate.longitude, context: sharedContext)
+        let newPin = Pin(lat: annotation.coordinate.latitude, lon: annotation.coordinate.longitude, context: sharedContext)
         
         CoreDataStackManager.sharedInstance().saveContext()
+        
         pins.append(newPin)
+        
         mapView.addAnnotation(annotation)
         
         //reverse geocode the city for the pin annotation

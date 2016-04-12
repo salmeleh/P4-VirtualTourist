@@ -20,8 +20,8 @@ class Pin: NSManagedObject, MKAnnotation {
         static let Title = "title"
     }
     
-    @NSManaged var latitude: NSNumber
-    @NSManaged var longitude: NSNumber
+    @NSManaged var latitude: Double
+    @NSManaged var longitude: Double
     @NSManaged var photos: [Photo]
     @NSManaged var title: String?
     
@@ -36,12 +36,17 @@ class Pin: NSManagedObject, MKAnnotation {
         super.init(entity: entity, insertIntoManagedObjectContext: context)
     }
     
-    init(annotationLatitude: Double, annotationLongitude: Double,context: NSManagedObjectContext) {
+    init(lat: Double, lon: Double, context: NSManagedObjectContext) {
         let entity = NSEntityDescription.entityForName("Pin", inManagedObjectContext: context)!
         super.init(entity: entity, insertIntoManagedObjectContext: context)
         
-        latitude = NSNumber(double: annotationLatitude)
-        longitude = NSNumber(double: annotationLongitude)
+        self.latitude = lat
+        self.longitude = lon
+    }
+
+    
+    var sharedContext: NSManagedObjectContext {
+        return CoreDataStackManager.sharedInstance().managedObjectContext
     }
     
     
