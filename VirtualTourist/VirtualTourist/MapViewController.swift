@@ -11,9 +11,9 @@ import MapKit
 import CoreData
 
 class MapViewController: UIViewController, MKMapViewDelegate, NSFetchedResultsControllerDelegate {
-
     
     @IBOutlet weak var mapView: MKMapView!
+    var pins = [Pin]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,10 +32,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, NSFetchedResultsCo
         mapView.addGestureRecognizer(lpgr)
         
         
-        // Step 2: Perform the fetch
-        do {
-            try fetchedResultsController.performFetch()
-        } catch {}
+        pins = fetchAllPins()
         
         self.mapView.delegate = self
         
@@ -43,24 +40,20 @@ class MapViewController: UIViewController, MKMapViewDelegate, NSFetchedResultsCo
     }
 
     
-    var sharedContext: NSManagedObjectContext {
+    //CORE DATA
+    lazy var sharedContext: NSManagedObjectContext =  {
         return CoreDataStackManager.sharedInstance().managedObjectContext
-    }
-    
-    
-    lazy var fetchedResultsController: NSFetchedResultsController = {
-        
-        let fetchRequest = NSFetchRequest(entityName: "Pin")
-        
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "title", ascending: true)]
-        
-        let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest,
-                                                                  managedObjectContext: self.sharedContext,
-                                                                  sectionNameKeyPath: nil,
-                                                                  cacheName: nil)
-        
-        return fetchedResultsController
     }()
+    
+    func fetchAllPins() -> [Pin] {
+        let fetchRequest = NSFetchRequest(entityName: "Pin")
+        do {
+            return try sharedContext.executeFetchRequest(fetchRequest) as! [Pin]
+        } catch let error as NSError {
+            print("Error in fetchAllActors(): \(error)")
+            return [Pin]()
+        }
+    }
 
     
     
@@ -148,15 +141,6 @@ class MapViewController: UIViewController, MKMapViewDelegate, NSFetchedResultsCo
         }
     }
     
-    func displaySavedPins() {
-        if let section = fetchedResultsController.sections?.first?.objects as? [Pin] {
-            var savedAnnotations = [Pin]()
-            for pin in section {
-                savedAnnotations.append(pin)
-            }
-            mapView.addAnnotations(savedAnnotations)
-        }
-    }
     
     
     //long press gesture recognizer function

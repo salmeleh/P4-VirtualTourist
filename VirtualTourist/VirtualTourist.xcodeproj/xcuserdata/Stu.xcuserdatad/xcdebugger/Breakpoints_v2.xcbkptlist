@@ -10,11 +10,43 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "VirtualTourist/MapViewController.swift"
-            timestampString = "482101362.948392"
+            timestampString = "482163346.815296"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "45"
-            endingLineNumber = "45"
+            startingLineNumber = "58"
+            endingLineNumber = "58"
+            landmarkName = "MapViewController"
+            landmarkType = "3">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "VirtualTourist/MapViewController.swift"
+            timestampString = "482163351.357116"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "106"
+            endingLineNumber = "106"
+            landmarkName = "MapViewController"
+            landmarkType = "3">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "VirtualTourist/MapViewController.swift"
+            timestampString = "482163354.105047"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "144"
+            endingLineNumber = "144"
             landmarkName = "MapViewController"
             landmarkType = "3">
          </BreakpointContent>
@@ -26,11 +58,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "VirtualTourist/MapViewController.swift"
-            timestampString = "482101435.793287"
+            timestampString = "482163371.099644"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "50"
-            endingLineNumber = "50"
+            startingLineNumber = "42"
+            endingLineNumber = "42"
             landmarkName = "MapViewController"
             landmarkType = "3">
             <Locations>
@@ -38,15 +70,30 @@
                   shouldBeEnabled = "No"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "VirtualTourist.MapViewController.fetchedResultsController.setter : __ObjC.NSFetchedResultsController"
+                  symbolName = "VirtualTourist.MapViewController.sharedContext.getter : __ObjC.NSManagedObjectContext"
                   moduleName = "VirtualTourist"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/Stu/Library/Mobile%20Documents/com~apple~CloudDocs/Documents/Apps/ios_Nanodegree/Apps/P4-VirtualTourist/VirtualTourist/VirtualTourist/MapViewController.swift"
-                  timestampString = "482101441.977893"
+                  timestampString = "482163371.102954"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "51"
-                  endingLineNumber = "51"
+                  startingLineNumber = "44"
+                  endingLineNumber = "44"
+                  offsetFromSymbolStart = "215">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "VirtualTourist.MapViewController.sharedContext.setter : __ObjC.NSManagedObjectContext"
+                  moduleName = "VirtualTourist"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/Stu/Library/Mobile%20Documents/com~apple~CloudDocs/Documents/Apps/ios_Nanodegree/Apps/P4-VirtualTourist/VirtualTourist/VirtualTourist/MapViewController.swift"
+                  timestampString = "482163371.103156"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "44"
+                  endingLineNumber = "44"
                   offsetFromSymbolStart = "65">
                </Location>
                <Location
@@ -57,12 +104,12 @@
                   moduleName = "VirtualTourist"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/Stu/Library/Mobile%20Documents/com~apple~CloudDocs/Documents/Apps/ios_Nanodegree/Apps/P4-VirtualTourist/VirtualTourist/VirtualTourist/MapViewController.swift"
-                  timestampString = "482101441.978068"
+                  timestampString = "482163371.103327"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "51"
-                  endingLineNumber = "51"
-                  offsetFromSymbolStart = "153">
+                  startingLineNumber = "44"
+                  endingLineNumber = "44"
+                  offsetFromSymbolStart = "181">
                </Location>
                <Location
                   shouldBeEnabled = "No"
@@ -72,93 +119,29 @@
                   moduleName = "VirtualTourist"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/Stu/Library/Mobile%20Documents/com~apple~CloudDocs/Documents/Apps/ios_Nanodegree/Apps/P4-VirtualTourist/VirtualTourist/VirtualTourist/MapViewController.swift"
-                  timestampString = "482101441.978211"
+                  timestampString = "482163371.10349"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "51"
-                  endingLineNumber = "51"
-                  offsetFromSymbolStart = "85">
+                  startingLineNumber = "44"
+                  endingLineNumber = "44"
+                  offsetFromSymbolStart = "113">
                </Location>
                <Location
                   shouldBeEnabled = "No"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "VirtualTourist.MapViewController.(fetchedResultsController.getter : __ObjC.NSFetchedResultsController).(closure #1)"
+                  symbolName = "VirtualTourist.MapViewController.(sharedContext.getter : __ObjC.NSManagedObjectContext).(closure #1)"
                   moduleName = "VirtualTourist"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/Stu/Library/Mobile%20Documents/com~apple~CloudDocs/Documents/Apps/ios_Nanodegree/Apps/P4-VirtualTourist/VirtualTourist/VirtualTourist/MapViewController.swift"
-                  timestampString = "482101441.97835"
+                  timestampString = "482163371.103654"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "53"
-                  endingLineNumber = "53"
-                  offsetFromSymbolStart = "18">
+                  startingLineNumber = "45"
+                  endingLineNumber = "45"
+                  offsetFromSymbolStart = "4">
                </Location>
             </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "VirtualTourist/MapViewController.swift"
-            timestampString = "482101448.623091"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "66"
-            endingLineNumber = "66"
-            landmarkName = "MapViewController"
-            landmarkType = "3">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "VirtualTourist/MapViewController.swift"
-            timestampString = "482101463.538976"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "90"
-            endingLineNumber = "90"
-            landmarkName = "MapViewController"
-            landmarkType = "3">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "VirtualTourist/MapViewController.swift"
-            timestampString = "482101465.23673"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "113"
-            endingLineNumber = "113"
-            landmarkName = "MapViewController"
-            landmarkType = "3">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "VirtualTourist/MapViewController.swift"
-            timestampString = "482101471.62992"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "160"
-            endingLineNumber = "160"
-            landmarkName = "MapViewController"
-            landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

@@ -10,6 +10,7 @@ import Foundation
 import MapKit
 import CoreData
 
+@objc(Pin)
 class Pin: NSManagedObject, MKAnnotation {
     
     struct Keys {
@@ -24,14 +25,7 @@ class Pin: NSManagedObject, MKAnnotation {
     
     //MKAnnotation needed variables
     var coordinate : CLLocationCoordinate2D {
-        get {
-            let coord = CLLocationCoordinate2D(latitude: self.latitude, longitude: self.longitude)
-            return coord
-        }
-        set {
-            latitude = newValue.latitude
-            longitude = newValue.longitude
-        }
+        return CLLocationCoordinate2D(latitude: self.latitude, longitude: self.longitude)
     }
     
     
