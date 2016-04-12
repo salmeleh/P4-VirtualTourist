@@ -78,6 +78,8 @@ class MapViewController: UIViewController, MKMapViewDelegate, NSFetchedResultsCo
     }
     
     func setRegion() -> MKCoordinateRegion {
+        //get user location maybe
+        
         let span = MKCoordinateSpanMake(latDelta, lonDelta)
         let location = CLLocationCoordinate2D(latitude: lat, longitude: lon)
         let region = MKCoordinateRegionMake(location, span)
