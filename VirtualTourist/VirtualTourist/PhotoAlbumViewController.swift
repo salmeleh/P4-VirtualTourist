@@ -49,13 +49,15 @@ class PhotoAlbumViewController : UIViewController, MKMapViewDelegate, NSFetchedR
     
     func loadMapView() {
         let sentPin = MKPointAnnotation()
-        sentPin.coordinate = CLLocationCoordinate2DMake((pin!.latitude), (pin!.longitude))
+        sentPin.coordinate = CLLocationCoordinate2DMake((pin?.latitude)!, (pin?.longitude)!)
         sentPin.title = pin?.title
         
         mapView.addAnnotation(sentPin)
         
         mapView.centerCoordinate = sentPin.coordinate
         mapView.selectAnnotation(sentPin, animated: true)
+        
+        
     }
 
     

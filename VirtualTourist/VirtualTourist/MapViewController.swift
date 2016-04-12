@@ -185,8 +185,22 @@ class MapViewController: UIViewController, MKMapViewDelegate, NSFetchedResultsCo
     }
     
     func mapView(mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
+        
         if control == view.rightCalloutAccessoryView {
-            performSegueWithIdentifier("showPAVC", sender: self)
+            
+            let annotation = view.annotation
+            let title = annotation!.title
+
+            selectedPin = nil
+            
+            for pin in pins {
+                if annotation!.coordinate.latitude == pin.latitude && annotation!.coordinate.longitude == pin.longitude {
+                    selectedPin = pin
+                    pin.title = title!
+                    print(pin.title)
+                    self.performSegueWithIdentifier("showPAVC", sender: nil)
+                }
+            }
         }
     }
     
