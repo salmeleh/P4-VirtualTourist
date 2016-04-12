@@ -13,13 +13,13 @@ import CoreData
 class Photo: NSManagedObject {
     
     struct Keys {
-        static let urlPath = "urlPath"
+        static let photoURL = "photoURL"
         static let ID = "id"
         static let Name = "title"
     }
     
     @NSManaged var pin: Pin?
-    @NSManaged var urlPath: String?
+    @NSManaged var photoURL: String?
     @NSManaged var id: Double
     @NSManaged var name: String
     
@@ -27,12 +27,13 @@ class Photo: NSManagedObject {
         super.init(entity: entity, insertIntoManagedObjectContext: context)
     }
     
-    init(dictionary: [String : AnyObject], context: NSManagedObjectContext) {
-        let entity =  NSEntityDescription.entityForName("Pin", inManagedObjectContext: context)!
-        super.init(entity: entity,insertIntoManagedObjectContext: context)
-        urlPath = dictionary[Keys.urlPath] as? String
-        id = Double((dictionary[Keys.ID] as? String)!)!
-        name = dictionary[Keys.Name] as! String
+    init(photoURL: String, pin: Pin, context: NSManagedObjectContext){
+        
+        let entity = NSEntityDescription.entityForName("Photos", inManagedObjectContext: context)!
+        super.init(entity: entity, insertIntoManagedObjectContext: context)
+        self.photoURL = photoURL
+        self.pin = pin
+        
     }
     
     

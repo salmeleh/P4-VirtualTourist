@@ -132,6 +132,14 @@ class MapViewController: UIViewController, MKMapViewDelegate, NSFetchedResultsCo
         
         mapView.addAnnotation(annotation)
         
+        
+        ///download photos////
+        ///download photos////
+        ///download photos////
+        ///download photos////
+        
+        
+        
         //reverse geocode the city for the pin annotation
                 let geoCoder = CLGeocoder()
                 let location = CLLocation(latitude: touchMapCoordinate.latitude, longitude: touchMapCoordinate.longitude)

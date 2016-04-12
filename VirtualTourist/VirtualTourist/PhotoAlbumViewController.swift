@@ -46,7 +46,7 @@ class PhotoAlbumViewController : UIViewController, MKMapViewDelegate, NSFetchedR
     }()
 
     
-    
+    //load in sent pin
     func loadMapView() {
         let sentPin = MKPointAnnotation()
         sentPin.coordinate = CLLocationCoordinate2DMake((pin?.latitude)!, (pin?.longitude)!)
@@ -60,8 +60,27 @@ class PhotoAlbumViewController : UIViewController, MKMapViewDelegate, NSFetchedR
         
     }
 
+    //COLLECTION VIEW METHODS
+    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int{
+        
+        let sectionInfo = self.fetchedResultsController.sections![section]
+        print("# of photos returned from fetchedResultsController #\(sectionInfo.numberOfObjects)")
+
+        return sectionInfo.numberOfObjects
+    }
     
     
+    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath){
+    }
+    
+    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell{
+        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("PhotoCollectionViewCell", forIndexPath: indexPath) as! CollectionViewCell
+        let photo = fetchedResultsController.objectAtIndexPath(indexPath) as! Photo
+
+        cell.photoView.image = photo.image
+
+        return cell
+    }
     
     
     
