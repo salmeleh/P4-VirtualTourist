@@ -124,7 +124,9 @@ class MapViewController: UIViewController, MKMapViewDelegate, NSFetchedResultsCo
         
         let newPin = Pin(annotationLatitude: annotation.coordinate.latitude, annotationLongitude: annotation.coordinate.longitude, context: sharedContext)
         
-        //CoreDataStackManager.sharedInstance().saveContext()
+        CoreDataStackManager.sharedInstance().saveContext()
+        pins.append(newPin)
+        mapView.addAnnotation(annotation)
         
         //reverse geocode the city for the pin annotation
                 let geoCoder = CLGeocoder()
@@ -150,11 +152,6 @@ class MapViewController: UIViewController, MKMapViewDelegate, NSFetchedResultsCo
                         print("Problem with the data received from geocoder")
                     }
                 })
-        
-        pins.append(newPin)
-        mapView.addAnnotation(annotation)
-        
-        CoreDataStackManager.sharedInstance().saveContext()
 
         
     }
