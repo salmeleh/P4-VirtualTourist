@@ -39,7 +39,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, NSFetchedResultsCo
         mapView.addGestureRecognizer(longPressRecogniser)
         
         mapView.delegate = self
-        //restoreSavedPinsToMap()
+        restoreSavedPinsToMap()
         
         
     }
