@@ -127,7 +127,6 @@ class MapViewController: UIViewController, MKMapViewDelegate, NSFetchedResultsCo
         
         let newPin = Pin(lat: annotation.coordinate.latitude, lon: annotation.coordinate.longitude, context: sharedContext)
         
-        CoreDataStackManager.sharedInstance().saveContext()
         
         pins.append(newPin)
         
@@ -157,6 +156,8 @@ class MapViewController: UIViewController, MKMapViewDelegate, NSFetchedResultsCo
                         print("Problem with the data received from geocoder")
                     }
                 })
+
+        CoreDataStackManager.sharedInstance().saveContext()
 
         
     }
