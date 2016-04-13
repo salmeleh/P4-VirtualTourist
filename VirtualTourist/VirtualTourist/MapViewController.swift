@@ -54,6 +54,8 @@ class MapViewController: UIViewController, MKMapViewDelegate, NSFetchedResultsCo
             let annotation = MKPointAnnotation()
             annotation.coordinate = pin.coordinate
             annotation.title = pin.title
+            print("restoreSavedPinsToMap pin.title: ")
+            print(pin.title)
             mapView.addAnnotation(annotation)
         }
     }
@@ -125,12 +127,11 @@ class MapViewController: UIViewController, MKMapViewDelegate, NSFetchedResultsCo
         let annotation = MKPointAnnotation()
         annotation.coordinate = touchMapCoordinate
         
-        let newPin = Pin(lat: annotation.coordinate.latitude, lon: annotation.coordinate.longitude, context: sharedContext)
         
         
-        pins.append(newPin)
-        
-        mapView.addAnnotation(annotation)
+       let newPin = Pin(lat: annotation.coordinate.latitude, lon: annotation.coordinate.longitude, context: sharedContext)
+//        pins.append(newPin)
+//        mapView.addAnnotation(annotation)
         
         
         ///download photos////
@@ -141,36 +142,50 @@ class MapViewController: UIViewController, MKMapViewDelegate, NSFetchedResultsCo
         
         
         //reverse geocode the city for the pin annotation
-                let geoCoder = CLGeocoder()
-                let location = CLLocation(latitude: touchMapCoordinate.latitude, longitude: touchMapCoordinate.longitude)
-                geoCoder.reverseGeocodeLocation(location, completionHandler: { (placemarks, error) -> Void in
-        
-                    // Place details
-                    var placeMark: CLPlacemark!
-                    placeMark = placemarks?[0]
-        
-                    if error != nil {
-                    print("Reverse geocoder failed with error" + error!.localizedDescription)
-                        return
-                    }
-        
-                    // City
-                    if let city = placeMark.addressDictionary!["City"] as? NSString {
-                        print(city)
-                        annotation.title = city as String
-                    }
-        
-                    else {
-                        print("Problem with the data received from geocoder")
-                    }
-                })
+        let geoCoder = CLGeocoder()
+        let location = CLLocation(latitude: touchMapCoordinate.latitude, longitude: touchMapCoordinate.longitude)
+        geoCoder.reverseGeocodeLocation(location, completionHandler: { (placemarks, error) -> Void in
 
+            //Place details
+            var placeMark: CLPlacemark!
+            placeMark = placemarks?[0]
+
+            if error != nil {
+            print("Reverse geocoder failed with error" + error!.localizedDescription)
+                return
+            }
+
+            //City
+            if let city = placeMark.addressDictionary!["City"] as? NSString {
+                //print(city)
+                annotation.title = city as String
+            }
+            
+            //State
+            if let state = placeMark.addressDictionary!["State"] as? NSString {
+                //print(state)
+                annotation.title = annotation.title! + ", " + (state as String)
+            }
+
+            else {
+                print("Problem with the data received from geocoder")
+            }
+            
+            newPin.title = annotation.title
+            self.pins.append(newPin)
+            CoreDataStackManager.sharedInstance().saveContext()
+            
+            
+        })
+        
+        mapView.addAnnotation(newPin)       
         CoreDataStackManager.sharedInstance().saveContext()
 
         
     }
     
     
+    //Map annotation functions
     func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
         
         let reuseId = "pin"

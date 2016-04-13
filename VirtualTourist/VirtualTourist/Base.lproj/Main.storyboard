@@ -51,8 +51,11 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="g3R-WZ-H2e">
-                                <rect key="frame" x="0.0" y="77" width="600" height="523"/>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="g3R-WZ-H2e">
+                                <rect key="frame" x="0.0" y="187" width="600" height="369"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="369" id="4G6-Hi-SaU"/>
+                                </constraints>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="s8f-Zr-FcM">
                                     <size key="itemSize" width="150" height="150"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
@@ -61,7 +64,7 @@
                                 </collectionViewFlowLayout>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="PhotoCollectionViewCell" id="9Vi-SS-cgw" customClass="CollectionViewCell" customModule="VirtualTourist" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="64" width="150" height="150"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="150" height="150"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                             <rect key="frame" x="0.0" y="0.0" width="150" height="150"/>
@@ -85,20 +88,34 @@
                                     </collectionViewCell>
                                 </cells>
                             </collectionView>
+                            <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oWi-md-LAt">
+                                <rect key="frame" x="0.0" y="20" width="600" height="44"/>
+                                <items>
+                                    <navigationItem id="0j4-Cg-8YF">
+                                        <barButtonItem key="leftBarButtonItem" title="Back" id="UdB-tW-unl">
+                                            <connections>
+                                                <segue destination="BYZ-38-t0r" kind="showDetail" id="pe6-nf-LhX"/>
+                                            </connections>
+                                        </barButtonItem>
+                                    </navigationItem>
+                                </items>
+                            </navigationBar>
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="pxg-7N-Mf1">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="128"/>
+                                <rect key="frame" x="0.0" y="64" width="600" height="128"/>
                             </mapView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="g3R-WZ-H2e" firstAttribute="top" secondItem="Qar-xr-brv" secondAttribute="bottom" constant="57" id="E1h-iI-D8N"/>
-                            <constraint firstItem="pxg-7N-Mf1" firstAttribute="top" secondItem="2CX-ih-nFD" secondAttribute="top" id="H9c-In-5Al"/>
-                            <constraint firstItem="pxg-7N-Mf1" firstAttribute="leading" secondItem="2CX-ih-nFD" secondAttribute="leading" id="JxL-SM-Pw0"/>
-                            <constraint firstAttribute="bottom" secondItem="g3R-WZ-H2e" secondAttribute="bottom" id="K49-9j-0Zd"/>
-                            <constraint firstItem="pxg-7N-Mf1" firstAttribute="leading" secondItem="g3R-WZ-H2e" secondAttribute="leading" id="QEB-8L-zU9"/>
-                            <constraint firstItem="pxg-7N-Mf1" firstAttribute="trailing" secondItem="g3R-WZ-H2e" secondAttribute="trailing" id="YCj-qO-WsF"/>
-                            <constraint firstItem="Jqn-tP-IJD" firstAttribute="top" secondItem="pxg-7N-Mf1" secondAttribute="bottom" constant="428" id="nsB-f1-MS6"/>
-                            <constraint firstAttribute="trailing" secondItem="pxg-7N-Mf1" secondAttribute="trailing" id="uj1-Qd-bq2"/>
+                            <constraint firstItem="oWi-md-LAt" firstAttribute="top" secondItem="Qar-xr-brv" secondAttribute="bottom" id="0le-4N-6kr"/>
+                            <constraint firstItem="g3R-WZ-H2e" firstAttribute="leading" secondItem="pxg-7N-Mf1" secondAttribute="leading" id="1Nn-6B-xZd"/>
+                            <constraint firstItem="g3R-WZ-H2e" firstAttribute="trailing" secondItem="pxg-7N-Mf1" secondAttribute="trailing" id="8Qy-cD-sMl"/>
+                            <constraint firstAttribute="trailing" secondItem="pxg-7N-Mf1" secondAttribute="trailing" id="KXr-6h-d9x"/>
+                            <constraint firstItem="pxg-7N-Mf1" firstAttribute="top" secondItem="oWi-md-LAt" secondAttribute="bottom" id="MU4-UD-9aK"/>
+                            <constraint firstItem="pxg-7N-Mf1" firstAttribute="leading" secondItem="oWi-md-LAt" secondAttribute="leading" id="NQS-YR-sQw"/>
+                            <constraint firstItem="g3R-WZ-H2e" firstAttribute="bottom" secondItem="Jqn-tP-IJD" secondAttribute="top" id="OwH-hG-8ee"/>
+                            <constraint firstItem="pxg-7N-Mf1" firstAttribute="trailing" secondItem="oWi-md-LAt" secondAttribute="trailing" id="fDd-aA-EdG"/>
+                            <constraint firstItem="Jqn-tP-IJD" firstAttribute="top" secondItem="pxg-7N-Mf1" secondAttribute="bottom" constant="364" id="fMD-zP-hPp"/>
+                            <constraint firstItem="pxg-7N-Mf1" firstAttribute="leading" secondItem="2CX-ih-nFD" secondAttribute="leading" id="oIL-qz-jAj"/>
                         </constraints>
                     </view>
                     <toolbarItems>
@@ -138,4 +155,7 @@
             <point key="canvasLocation" x="-146" y="400"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="pe6-nf-LhX"/>
+    </inferredMetricsTieBreakers>
 </document>

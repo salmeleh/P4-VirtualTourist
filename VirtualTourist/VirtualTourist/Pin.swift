@@ -42,6 +42,7 @@ class Pin: NSManagedObject, MKAnnotation {
         
         self.latitude = lat
         self.longitude = lon
+        //self.title = title
     }
 
     
