@@ -11,7 +11,6 @@ import MapKit
 import CoreData
 import UIKit
 
-@objc(Pin)
 class Pin: NSManagedObject, MKAnnotation {
     
     struct Keys {
