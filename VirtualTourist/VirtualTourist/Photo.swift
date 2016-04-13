@@ -10,6 +10,7 @@ import Foundation
 import UIKit
 import CoreData
 
+@objc(Photo)
 class Photo: NSManagedObject {
     
     struct Keys {
@@ -33,6 +34,29 @@ class Photo: NSManagedObject {
         super.init(entity: entity, insertIntoManagedObjectContext: context)
         self.photoURL = photoURL
         self.pin = pin
+        
+    }
+    
+    
+    
+    //RETURN IMAGE
+    var image: UIImage? {
+        if let photoURL = photoURL {
+            
+            //Check for error
+            if photoURL == "error" {
+                return UIImage(named: "404.jpg")
+            }
+            
+            //Get file path
+            let photoName = (photoURL as NSString).lastPathComponent
+            let dirPath = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0]
+            let pathArray = [dirPath, photoName]
+            let fileURL = NSURL.fileURLWithPathComponents(pathArray)!
+            
+            return UIImage(contentsOfFile: fileURL.path!)
+        }
+        return nil
         
     }
     
