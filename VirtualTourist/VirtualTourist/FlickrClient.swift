@@ -37,16 +37,6 @@ class FlickrClient : NSObject {
         }
         return (!urlVars.isEmpty ? "?" : "") + urlVars.joinWithSeparator("&")
     }
-    
-    static let methodArguments: [String: String!] = [
-        "method": FlickrClient.Constants.METHOD_NAME,
-        "api_key": FlickrClient.Constants.API_KEY,
-        "safe_search": FlickrClient.Constants.SAFE_SEARCH,
-        "extras": FlickrClient.Constants.EXTRAS,
-        "format": FlickrClient.Constants.DATA_FORMAT,
-        "nojsoncallback": FlickrClient.Constants.NO_JSON_CALLBACK,
-        "per_page" : "21",
-        ]
 
 
 
