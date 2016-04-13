@@ -47,15 +47,12 @@ class MapViewController: UIViewController, MKMapViewDelegate, NSFetchedResultsCo
     
     func restoreSavedPinsToMap() {
         pins = fetchAllPins()
-        print("Pin count in core data is \(pins.count)")
         
         for pin in pins {
             
             let annotation = MKPointAnnotation()
             annotation.coordinate = pin.coordinate
             annotation.title = pin.title
-            print("restoreSavedPinsToMap pin.title: ")
-            print(pin.title)
             mapView.addAnnotation(annotation)
         }
     }
