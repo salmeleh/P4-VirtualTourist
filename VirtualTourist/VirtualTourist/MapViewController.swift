@@ -133,6 +133,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, NSFetchedResultsCo
         
         ///download photos////
         ///download photos////
+        FlickrClient.sharedInstance().downloadPhotosForPin(newPin) { (success, error) in print("downloadPhotosForPin is success: \(success) - error: \(error!)") }
         ///download photos////
         ///download photos////
         

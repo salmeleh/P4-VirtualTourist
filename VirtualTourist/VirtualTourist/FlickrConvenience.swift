@@ -12,7 +12,7 @@ import CoreData
 extension FlickrClient {
     
     func downloadPhotosForPin(pin: Pin, completionHandler: (success: Bool, error: NSError?) -> Void) {
-        
+        //RANDOM PAGE
         var randomPageNumber: Int = 1
         if let numberPages = pin.pageNumber?.integerValue {
             if numberPages > 0 {

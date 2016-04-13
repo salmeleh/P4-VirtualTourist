@@ -31,7 +31,7 @@ class FlickrClient : NSObject {
     
     //TASK FOR GET METHOD
     func taskForGETMethodWithParameters(parameters: [String : AnyObject], completionHandler: (result: AnyObject!, error: NSError?) -> Void) {
-        
+        print("taskForGETMethodWithParameters")
         //Build the URL and configure the request
         let urlString = Constants.BaseURL + escapedParameters(parameters)
         let request = NSMutableURLRequest(URL: NSURL(string: urlString)!)
@@ -54,7 +54,7 @@ class FlickrClient : NSObject {
     
     
     func taskForGETMethod(urlString: String,completionHandler: (result: NSData?, error: NSError?) -> Void) {
-        
+        print("taskForGETMethod")
         //Configure the request
         let request = NSMutableURLRequest(URL: NSURL(string: urlString)!)
         
