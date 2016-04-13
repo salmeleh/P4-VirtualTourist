@@ -77,7 +77,7 @@ class PhotoAlbumViewController : UIViewController, MKMapViewDelegate, NSFetchedR
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("PhotoCollectionViewCell", forIndexPath: indexPath) as! CollectionViewCell
         let photo = fetchedResultsController.objectAtIndexPath(indexPath) as! Photo
 
-        cell.photoView.image = photo.image
+        cell.imageView.image = photo.image
 
         return cell
     }
