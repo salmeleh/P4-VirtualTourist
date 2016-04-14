@@ -36,19 +36,20 @@ class FlickrClient : NSObject {
         let urlString = Constants.BaseURL + escapedParameters(parameters)
         let request = NSMutableURLRequest(URL: NSURL(string: urlString)!)
         
-        //Make the request
+        print("//Make the request")
         let task = session.dataTaskWithRequest(request) {
             data, response, downloadError in
             
-            //Parse the received data
+            print("//Parse the received data")
             if let error = downloadError {
                 let newError = FlickrClient.errorFromParsed(data, response: response, error: error)
                 completionHandler(result: nil, error: newError)
             } else {
+                print("Data:" + "\(data)")
                 FlickrClient.parseJSONWithCompletionHandler(data!, completionHandler: completionHandler)
             }
         }
-        //Start the request
+
         task.resume()
     }
     
@@ -93,6 +94,7 @@ class FlickrClient : NSObject {
     
     //PARSE JSON RESPONSE
     class func parseJSONWithCompletionHandler(data: NSData, completionHandler:(result: AnyObject!, error: NSError?) -> Void) {
+        print("parseJSONWithCompletionHandler")
         var parsingError: NSError? = nil
         let parsedResult: AnyObject?
         do {

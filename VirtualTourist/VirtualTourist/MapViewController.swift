@@ -130,15 +130,6 @@ class MapViewController: UIViewController, MKMapViewDelegate, NSFetchedResultsCo
 //        pins.append(newPin)
 //        mapView.addAnnotation(annotation)
         
-        
-        ///download photos////
-        ///download photos////
-        FlickrClient.sharedInstance().downloadPhotosForPin(newPin) { (success, error) in print("downloadPhotosForPin is success: \(success) - error: \(error!)") }
-        ///download photos////
-        ///download photos////
-        
-        
-        
         //reverse geocode the city for the pin annotation
         let geoCoder = CLGeocoder()
         let location = CLLocation(latitude: touchMapCoordinate.latitude, longitude: touchMapCoordinate.longitude)
@@ -175,6 +166,9 @@ class MapViewController: UIViewController, MKMapViewDelegate, NSFetchedResultsCo
             
             
         })
+        
+        FlickrClient.sharedInstance().downloadPhotosForPin(newPin) { (success, error) in print("downloadPhotosForPin is success: \(success) - error: \(error)") }
+
         
         mapView.addAnnotation(newPin)       
         CoreDataStackManager.sharedInstance().saveContext()
