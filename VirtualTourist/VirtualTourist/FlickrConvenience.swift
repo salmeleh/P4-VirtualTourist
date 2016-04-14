@@ -33,7 +33,7 @@ extension FlickrClient {
             URLKeys.PerPage : 21
         ]
         
-        //Make GET request
+        //GET request
         taskForGETMethodWithParameters(parameters, completionHandler: {
             results, error in
             
@@ -61,7 +61,7 @@ extension FlickrClient {
                         self.downloadPhotoImage(newPhoto, completionHandler: {
                             success, error in
                             
-                            print("Downloading photo by URL - \(success): \(error)")
+                            print("Downloading photo by URL success: \(success) - error: \(error)")
                             
                             self.numberOfPhotosDownloaded -= 1
 
@@ -89,7 +89,7 @@ extension FlickrClient {
     
     func downloadPhotoImage(photo: Photo, completionHandler: (success: Bool, error: NSError?) -> Void) {
         
-        let imageURLString = photo.photoURL
+        let imageURLString = photo.url
         
         // Make GET request for download photo by url
         taskForGETMethod(imageURLString!, completionHandler: {
@@ -98,7 +98,7 @@ extension FlickrClient {
             // If there is an error - set file path to error to show blank image
             if let error = error {
                 print("Error from downloading images \(error.localizedDescription )")
-                photo.photoURL = "error"
+                photo.url = "error"
                 completionHandler(success: false, error: error)
                 
             } else {
@@ -116,7 +116,7 @@ extension FlickrClient {
                     NSFileManager.defaultManager().createFileAtPath(fileURL.path!, contents: result, attributes: nil)
                     
                     // Update the Photos model
-                    photo.photoURL = fileURL.path
+                    photo.url = fileURL.path
                     
                     completionHandler(success: true, error: nil)
                 }

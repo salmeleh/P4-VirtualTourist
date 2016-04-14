@@ -16,6 +16,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, NSFetchedResultsCo
     
     var pins = [Pin]()
     var selectedPin: Pin? = nil
+    let locationManager = CLLocationManager()
     
     let savedLonSpan = "Saved Longitude Span"
     let savedLatSpan = "Saved Latitude Span"
@@ -31,6 +32,20 @@ class MapViewController: UIViewController, MKMapViewDelegate, NSFetchedResultsCo
         
         //Hide the navigation bar
         self.navigationController?.setNavigationBarHidden(true, animated: false)
+        
+        
+//        //http://stackoverflow.com/questions/25296691/swift-get-users-current-location-coordinates
+//        self.locationManager.requestAlwaysAuthorization()
+//        
+//        // For use in foreground
+//        self.locationManager.requestWhenInUseAuthorization()
+//        
+//        if CLLocationManager.locationServicesEnabled() {
+//            locationManager.delegate = self
+//            locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
+//            locationManager.startUpdatingLocation()
+//        }
+        
         
         initMap()
         
@@ -213,6 +228,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, NSFetchedResultsCo
                     selectedPin = pin
                     pin.title = title!
                     print(pin.title)
+                    print("showPAVC")
                     self.performSegueWithIdentifier("showPAVC", sender: nil)
                 }
             }
@@ -227,6 +243,10 @@ class MapViewController: UIViewController, MKMapViewDelegate, NSFetchedResultsCo
     }
 
     
+//    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+//        let locValue:CLLocationCoordinate2D = manager.location!.coordinate
+//        print("locations = \(locValue.latitude) \(locValue.longitude)")
+//    }
     
     
 
