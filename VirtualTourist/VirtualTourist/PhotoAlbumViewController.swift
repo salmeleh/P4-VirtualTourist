@@ -97,6 +97,9 @@ class PhotoAlbumViewController : UIViewController, MKMapViewDelegate, NSFetchedR
     
     
     
+    @IBAction func backButtonPressed(sender: AnyObject) {
+        self.dismissViewControllerAnimated(true, completion: nil)
+    }
     
     @IBAction func bottomBarButtonPressed(sender: AnyObject) {
     }
