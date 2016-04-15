@@ -110,13 +110,13 @@ extension FlickrClient {
                     let dirPath = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0]
                     let pathArray = [dirPath, fileName]
                     let fileURL = NSURL.fileURLWithPathComponents(pathArray)!
-                    //print(fileURL)
+                    print(fileURL)
                     
                     // Save file
                     NSFileManager.defaultManager().createFileAtPath(fileURL.path!, contents: result, attributes: nil)
                     
-                    // Update the Photos model
-                    photo.url = fileURL.path
+                    //Update the Photo
+                    photo.filePath = fileURL.path
                     
                     completionHandler(success: true, error: nil)
                 }
