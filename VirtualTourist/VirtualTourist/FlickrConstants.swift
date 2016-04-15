@@ -8,42 +8,51 @@
 
 extension FlickrClient {
 
-    struct Constant {
-        static let baseURL = "https://api.flickr.com/services/rest/"
-        static let ApiKey = "3cf0014e24ba656dc214ea5cf81789b9"
-        static let Safesearch = "1"
-        static let Extras = "url_m"
-        static let DataFormat = "json"
-        static let No_JSON_CALLBACK = "1"
-        static let photosPerPage = 24
+    //MARK: Constants
+    struct Constants {
+        static let APIKey = "8e47a740cdb0684927dfa5df359e268d"
+        static let BaseURL = "https://api.flickr.com/services/rest/"
     }
     
-    //MARK:- Flickr methods to download data
+    //MARK: Methods
     struct Methods {
-        static let SearchPhotosbyLatLon = "flickr.photos.search"
+        static let Search = "flickr.photos.search"
     }
     
-    // MARK: - Parameter Keys
-    struct ParameterKeys {
-        static let Method = "method"
-        static let ApiKey = "api_key"
+    //MARK: URL Keys
+    struct URLKeys {
+        static let APIKey = "api_key"
+        static let BoundingBox = "bbox"
+        static let Format = "format"
+        static let Extras = "extras"
         static let Latitude = "lat"
         static let Longitude = "lon"
-        static let Safesearch = "safe_search"
-        static let Extras = "extras"
-        static let Dataformat = "format"
-        static let NOJSONCallback = "nojsoncallback"
-        static let pageNumber = "page"
-        static let photosPerPage = "per_page"
-        
+        static let Method = "method"
+        static let NoJSONCallback = "nojsoncallback"
+        static let Page = "page"
+        static let PerPage = "per_page"
     }
-    // MARK: - JSON Response Keys
+    
+    //MARK: URL Values
+    struct URLValues {
+        static let JSONFormat = "json"
+        static let URLMediumPhoto = "url_m"
+    }
+    
+    //MARK: JSON Response Keys
     struct JSONResponseKeys {
+        static let Status = "stat"
+        static let Code = "code"
+        static let Message = "message"
+        static let Pages = "pages"
         static let Photos = "photos"
-        static let TotalPages = "pages"
         static let Photo = "photo"
-        static let Message = "msg"
-        
+    }
+    
+    //MARK: - JSON Response Values
+    struct JSONResponseValues {
+        static let Fail = "fail"
+        static let Ok = "ok"
     }
 
 }

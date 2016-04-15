@@ -16,6 +16,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, NSFetchedResultsCo
     
     var pins = [Pin]()
     var selectedPin: Pin? = nil
+    let locationManager = CLLocationManager()
     
     let savedLonSpan = "Saved Longitude Span"
     let savedLatSpan = "Saved Latitude Span"
@@ -32,6 +33,20 @@ class MapViewController: UIViewController, MKMapViewDelegate, NSFetchedResultsCo
         //Hide the navigation bar
         self.navigationController?.setNavigationBarHidden(true, animated: false)
         
+        
+//        //http://stackoverflow.com/questions/25296691/swift-get-users-current-location-coordinates
+//        self.locationManager.requestAlwaysAuthorization()
+//        
+//        // For use in foreground
+//        self.locationManager.requestWhenInUseAuthorization()
+//        
+//        if CLLocationManager.locationServicesEnabled() {
+//            locationManager.delegate = self
+//            locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
+//            locationManager.startUpdatingLocation()
+//        }
+        
+        
         initMap()
         
         let longPressRecogniser = UILongPressGestureRecognizer(target: self, action: "handleLongPress:")
@@ -47,15 +62,12 @@ class MapViewController: UIViewController, MKMapViewDelegate, NSFetchedResultsCo
     
     func restoreSavedPinsToMap() {
         pins = fetchAllPins()
-        print("Pin count in core data is \(pins.count)")
         
         for pin in pins {
             
             let annotation = MKPointAnnotation()
             annotation.coordinate = pin.coordinate
             annotation.title = pin.title
-            print("restoreSavedPinsToMap pin.title: ")
-            print(pin.title)
             mapView.addAnnotation(annotation)
         }
     }
@@ -133,14 +145,6 @@ class MapViewController: UIViewController, MKMapViewDelegate, NSFetchedResultsCo
 //        pins.append(newPin)
 //        mapView.addAnnotation(annotation)
         
-        
-        ///download photos////
-        ///download photos////
-        ///download photos////
-        ///download photos////
-        
-        
-        
         //reverse geocode the city for the pin annotation
         let geoCoder = CLGeocoder()
         let location = CLLocation(latitude: touchMapCoordinate.latitude, longitude: touchMapCoordinate.longitude)
@@ -177,6 +181,9 @@ class MapViewController: UIViewController, MKMapViewDelegate, NSFetchedResultsCo
             
             
         })
+        
+        FlickrClient.sharedInstance().downloadPhotosForPin(newPin) { (success, error) in print("downloadPhotosForPin is success: \(success) - error: \(error)") }
+
         
         mapView.addAnnotation(newPin)       
         CoreDataStackManager.sharedInstance().saveContext()
@@ -221,6 +228,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, NSFetchedResultsCo
                     selectedPin = pin
                     pin.title = title!
                     print(pin.title)
+                    print("showPAVC")
                     self.performSegueWithIdentifier("showPAVC", sender: nil)
                 }
             }
@@ -235,6 +243,10 @@ class MapViewController: UIViewController, MKMapViewDelegate, NSFetchedResultsCo
     }
 
     
+//    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+//        let locValue:CLLocationCoordinate2D = manager.location!.coordinate
+//        print("locations = \(locValue.latitude) \(locValue.longitude)")
+//    }
     
     
 

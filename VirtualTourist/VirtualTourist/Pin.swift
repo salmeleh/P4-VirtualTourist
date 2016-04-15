@@ -24,6 +24,7 @@ class Pin: NSManagedObject, MKAnnotation {
     @NSManaged var longitude: Double
     @NSManaged var photos: [Photo]
     @NSManaged var title: String?
+    @NSManaged var pageNumber: NSNumber?
     
     
     //MKAnnotation needed variables

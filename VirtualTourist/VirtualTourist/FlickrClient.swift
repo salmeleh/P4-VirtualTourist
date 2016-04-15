@@ -6,10 +6,15 @@
 //  Copyright © 2016 Stu Almeleh. All rights reserved.
 //
 
+import UIKit
 import Foundation
+import CoreData
+
 
 class FlickrClient : NSObject {
+    
     var session: NSURLSession
+    var numberOfPhotosDownloaded = 0
     
     override init() {
         session = NSURLSession.sharedSession()
@@ -25,31 +30,52 @@ class FlickrClient : NSObject {
     }
     
     //TASK FOR GET METHOD
-    func taskForGETMethod(parameters: [String:AnyObject], completionHandler: (result: AnyObject!, error: NSError?) -> Void) -> NSURLSessionDataTask {
+    func taskForGETMethodWithParameters(parameters: [String : AnyObject], completionHandler: (result: AnyObject!, error: NSError?) -> Void) {
+        print("taskForGETMethodWithParameters")
+        //Build the URL and configure the request
+        let urlString = Constants.BaseURL + escapedParameters(parameters)
+        let request = NSMutableURLRequest(URL: NSURL(string: urlString)!)
         
-        // Set the parameters
-        let mutableParameters = parameters
-        
-        //Build URL and configure Request
-        let urlString = Constant.baseURL  + escapedParameters(mutableParameters)
-        let url = NSURL(string: urlString)!
-        let request = NSURLRequest(URL: url)
-        
-        //Make the Request
-        let task = session.dataTaskWithRequest(request) {data,response,downloadError in
-            //Parse the data and use the data
+        print("//Make the request")
+        let task = session.dataTaskWithRequest(request) {
+            data, response, downloadError in
+            
+            print("//Parse the received data")
             if let error = downloadError {
                 let newError = FlickrClient.errorFromParsed(data, response: response, error: error)
                 completionHandler(result: nil, error: newError)
             } else {
-                FlickrClient.parseJSONWithmpletionHandler(data!, completionHandler: completionHandler)
+                print("Data:" + "\(data)")
+                FlickrClient.parseJSONWithCompletionHandler(data!, completionHandler: completionHandler)
             }
         }
+
+        task.resume()
+    }
+    
+    
+    func taskForGETMethod(urlString: String,completionHandler: (result: NSData?, error: NSError?) -> Void) {
+        print("taskForGETMethod")
+        //Configure the request
+        let request = NSMutableURLRequest(URL: NSURL(string: urlString)!)
+        
+        //Make the request
+        let task = session.dataTaskWithRequest(request) {
+            data, response, downloadError in
+            
+            //Parse the received data
+            if let error = downloadError {
+                let newError = FlickrClient.errorFromParsed(data, response: response, error: error)
+                completionHandler(result: nil, error: newError)
+            } else {
+                completionHandler(result: data, error: nil)
+            }
+        }
+        
         // Start the request
         task.resume()
-        return task
-        
     }
+    
     
     
     
@@ -67,7 +93,8 @@ class FlickrClient : NSObject {
     
     
     //PARSE JSON RESPONSE
-    class func parseJSONWithmpletionHandler(data: NSData, completionHandler:(result: AnyObject!, error: NSError?) -> Void) {
+    class func parseJSONWithCompletionHandler(data: NSData, completionHandler:(result: AnyObject!, error: NSError?) -> Void) {
+        print("parseJSONWithCompletionHandler")
         var parsingError: NSError? = nil
         let parsedResult: AnyObject?
         do {

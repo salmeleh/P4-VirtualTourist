@@ -14,43 +14,43 @@ import CoreData
 class Photo: NSManagedObject {
     
     struct Keys {
-        static let photoURL = "photoURL"
+        static let URL = "photoURL"
         static let ID = "id"
-        static let Name = "title"
+        static let Title = "title"
     }
     
+    @NSManaged var url: String?
+    @NSManaged var id: String?
+    @NSManaged var filePath: String?
+    @NSManaged var title: String?
     @NSManaged var pin: Pin?
-    @NSManaged var photoURL: String?
-    @NSManaged var id: Double
-    @NSManaged var name: String
     
     override init(entity: NSEntityDescription, insertIntoManagedObjectContext context: NSManagedObjectContext?) {
         super.init(entity: entity, insertIntoManagedObjectContext: context)
     }
     
     init(photoURL: String, pin: Pin, context: NSManagedObjectContext){
-        
-        let entity = NSEntityDescription.entityForName("Photos", inManagedObjectContext: context)!
+        let entity = NSEntityDescription.entityForName("Photo", inManagedObjectContext: context)!
         super.init(entity: entity, insertIntoManagedObjectContext: context)
-        self.photoURL = photoURL
+        self.url = photoURL
         self.pin = pin
+        print("init from Photo.swift: \(url)")
         
     }
     
     
     //RETURN IMAGE
     var image: UIImage? {
-        if let photoURL = photoURL {
+        if let filePath = filePath {
             
-            //Check for error
-            if photoURL == "error" {
+            if filePath == "error" {
                 return UIImage(named: "404.jpg")
             }
             
             //Get file path
-            let photoName = (photoURL as NSString).lastPathComponent
+            let fileName = (filePath as NSString).lastPathComponent
             let dirPath = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0]
-            let pathArray = [dirPath, photoName]
+            let pathArray = [dirPath, fileName]
             let fileURL = NSURL.fileURLWithPathComponents(pathArray)!
             
             return UIImage(contentsOfFile: fileURL.path!)

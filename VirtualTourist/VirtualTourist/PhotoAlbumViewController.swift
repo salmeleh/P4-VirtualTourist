@@ -10,13 +10,31 @@ import UIKit
 import MapKit
 import CoreData
 
-class PhotoAlbumViewController : UIViewController, MKMapViewDelegate, NSFetchedResultsControllerDelegate {
+class PhotoAlbumViewController : UIViewController, MKMapViewDelegate, NSFetchedResultsControllerDelegate, UICollectionViewDelegate, UICollectionViewDataSource {
 
-    var pin: Pin? = nil
+    var pin: Pin!
     
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var barButton: UIBarButtonItem!
+    
+    var selectedIndexofCollectionViewCells = [NSIndexPath]()
+    
+    
+    //CORE DATA
+    var sharedContext: NSManagedObjectContext {
+        return CoreDataStackManager.sharedInstance().managedObjectContext
+    }
+    
+    lazy var fetchedResultsController: NSFetchedResultsController = {
+        let fetchRequest = NSFetchRequest(entityName: "Photo")
+        fetchRequest.predicate = NSPredicate(format: "pin == %@", self.pin)
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "title", ascending: true)]
+        let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: self.sharedContext, sectionNameKeyPath: nil, cacheName: nil)
+        return fetchedResultsController
+    }()
+    
+    
     
     
     override func viewDidLoad() {
@@ -25,26 +43,22 @@ class PhotoAlbumViewController : UIViewController, MKMapViewDelegate, NSFetchedR
         mapView.delegate = self
         loadMapView()
         
+        collectionView.delegate = self
+        collectionView.dataSource = self
         
-    }
-    
-    //CORE DATA
-    var sharedContext: NSManagedObjectContext {
-        return CoreDataStackManager.sharedInstance().managedObjectContext
-    }
-    
-    lazy var fetchedResultsController: NSFetchedResultsController = {
-        let fetchRequest = NSFetchRequest(entityName: "Photos")
-        
-        fetchRequest.predicate = NSPredicate(format: "pin == %@", self.pin!)
-        
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "title", ascending: true)]
-        
-        let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: self.sharedContext, sectionNameKeyPath: nil, cacheName: nil)
-        
-        return fetchedResultsController
-    }()
+        // Perform the fetch
+        do {
+            try fetchedResultsController.performFetch()
+        } catch let error as NSError {
+            print("\(error)")
+        }
 
+        fetchedResultsController.delegate = self
+        
+        
+    }
+    
+    
     
     //load in sent pin
     func loadMapView() {
@@ -64,8 +78,7 @@ class PhotoAlbumViewController : UIViewController, MKMapViewDelegate, NSFetchedR
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int{
         
         let sectionInfo = self.fetchedResultsController.sections![section]
-        print("# of photos returned from fetchedResultsController #\(sectionInfo.numberOfObjects)")
-
+        print("# of photos returned from fetchedResultsController: \(sectionInfo.numberOfObjects)")
         return sectionInfo.numberOfObjects
     }
     
@@ -84,7 +97,9 @@ class PhotoAlbumViewController : UIViewController, MKMapViewDelegate, NSFetchedR
     
     
     
-    
+    @IBAction func backButtonPressed(sender: AnyObject) {
+        self.dismissViewControllerAnimated(true, completion: nil)
+    }
     
     @IBAction func bottomBarButtonPressed(sender: AnyObject) {
     }
