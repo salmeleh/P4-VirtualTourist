@@ -16,7 +16,7 @@ class PhotoAlbumViewController : UIViewController, MKMapViewDelegate, NSFetchedR
     
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var collectionView: UICollectionView!
-    @IBOutlet weak var barButton: UIBarButtonItem!
+    @IBOutlet weak var newCollectionButton: UIButton!
     
     var selectedIndexofCollectionViewCells = [NSIndexPath]()
     
@@ -39,6 +39,7 @@ class PhotoAlbumViewController : UIViewController, MKMapViewDelegate, NSFetchedR
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        newCollectionButton.hidden = true
     
         mapView.delegate = self
         loadMapView()
@@ -69,6 +70,7 @@ class PhotoAlbumViewController : UIViewController, MKMapViewDelegate, NSFetchedR
         mapView.addAnnotation(sentPin)
         
         mapView.centerCoordinate = sentPin.coordinate
+        
         mapView.selectAnnotation(sentPin, animated: true)
         
         
@@ -79,6 +81,10 @@ class PhotoAlbumViewController : UIViewController, MKMapViewDelegate, NSFetchedR
         
         let sectionInfo = self.fetchedResultsController.sections![section]
         print("# of photos returned from fetchedResultsController: \(sectionInfo.numberOfObjects)")
+        if (sectionInfo.numberOfObjects > 0) {
+            newCollectionButton.hidden = false
+        }
+        
         return sectionInfo.numberOfObjects
     }
     
@@ -98,12 +104,55 @@ class PhotoAlbumViewController : UIViewController, MKMapViewDelegate, NSFetchedR
     
     
     @IBAction func backButtonPressed(sender: AnyObject) {
-        self.dismissViewControllerAnimated(true, completion: nil)
+        let controller = self.storyboard!.instantiateViewControllerWithIdentifier("MapViewController")
+        self.presentViewController(controller, animated: true, completion: nil)
     }
     
     @IBAction func bottomBarButtonPressed(sender: AnyObject) {
+        newCollectionButton.hidden = true
+        
+        //delete pics
+        for photo in fetchedResultsController.fetchedObjects as! [Photo]{
+            sharedContext.deleteObject(photo)
+        }
+        
+        //save core data
+        CoreDataStackManager.sharedInstance().saveContext()
+
+        //re-download
+        FlickrClient.sharedInstance().downloadPhotosForPin(pin!, completionHandler: {
+            success, error in
+            
+            if success {
+                //save CD
+                dispatch_async(dispatch_get_main_queue(), {
+                    CoreDataStackManager.sharedInstance().saveContext()
+                })
+            } else {
+                //error
+                dispatch_async(dispatch_get_main_queue(), {
+                    print("error downloading a new set of photos")
+                    self.newCollectionButton.hidden = true
+                })
+            }
+            //re-fetch & reload
+            dispatch_async(dispatch_get_main_queue(), {
+                do {
+                    try self.fetchedResultsController.performFetch()
+                } catch let error as NSError {
+                    print("\(error)")
+                }
+                print("re-fetch completed")
+                self.collectionView.reloadData()
+                print("reloadData()")
+            })
+            
+        })
+
+        
+        
     }
     
-        
+    
 
 }
