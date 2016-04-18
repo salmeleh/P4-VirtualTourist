@@ -109,6 +109,7 @@ class PhotoAlbumViewController : UIViewController, MKMapViewDelegate, NSFetchedR
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath){
         
         if (editFlag == true) {
+            //Toggle cell's presence in selectedCells array when cell is selected
             if let index = selectedIndexofCollectionViewCells.indexOf(indexPath){
                 selectedIndexofCollectionViewCells.removeAtIndex(index)
             } else {
@@ -188,8 +189,6 @@ class PhotoAlbumViewController : UIViewController, MKMapViewDelegate, NSFetchedR
             })
             
         })
-
-        
         
     }
     
