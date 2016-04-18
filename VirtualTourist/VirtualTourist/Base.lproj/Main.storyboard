@@ -75,7 +75,7 @@
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="bAL-bf-UYg">
                                                     <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
                                                 </imageView>
-                                                <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" misplaced="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="tvO-Yy-OhV">
+                                                <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" misplaced="YES" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="tvO-Yy-OhV">
                                                     <rect key="frame" x="32" y="31" width="37" height="37"/>
                                                 </activityIndicatorView>
                                             </subviews>
@@ -230,6 +230,8 @@
                                 <exclude reference="Frx-QX-1Ca"/>
                             </mask>
                             <mask key="constraints">
+                                <exclude reference="faI-Lb-JuB"/>
+                                <exclude reference="fuA-fm-YSF"/>
                                 <exclude reference="0oL-3H-PUj"/>
                                 <exclude reference="QFV-R9-LWu"/>
                                 <exclude reference="hdF-9e-cDL"/>
@@ -242,8 +244,6 @@
                                 <exclude reference="qcN-To-SK9"/>
                                 <exclude reference="sEd-cQ-Tnw"/>
                                 <exclude reference="sQX-0v-FEg"/>
-                                <exclude reference="faI-Lb-JuB"/>
-                                <exclude reference="fuA-fm-YSF"/>
                                 <exclude reference="CcZ-Pg-5ZL"/>
                                 <exclude reference="SOv-P4-6ZY"/>
                             </mask>
@@ -254,6 +254,8 @@
                                 <include reference="Frx-QX-1Ca"/>
                             </mask>
                             <mask key="constraints">
+                                <include reference="faI-Lb-JuB"/>
+                                <include reference="fuA-fm-YSF"/>
                                 <include reference="0oL-3H-PUj"/>
                                 <exclude reference="LG7-1y-AhY"/>
                                 <include reference="QFV-R9-LWu"/>
@@ -272,8 +274,6 @@
                                 <include reference="sEd-cQ-Tnw"/>
                                 <include reference="sQX-0v-FEg"/>
                                 <exclude reference="yWx-JN-JFJ"/>
-                                <include reference="faI-Lb-JuB"/>
-                                <include reference="fuA-fm-YSF"/>
                                 <include reference="CcZ-Pg-5ZL"/>
                                 <include reference="SOv-P4-6ZY"/>
                                 <exclude reference="ac7-Df-BbC"/>
