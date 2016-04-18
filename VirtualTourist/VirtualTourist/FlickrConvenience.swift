@@ -45,35 +45,36 @@ extension FlickrClient {
                 if let photosDictionary = results.valueForKey(JSONResponseKeys.Photos) as? [String: AnyObject],
                     photosArray = photosDictionary[JSONResponseKeys.Photo] as? [[String : AnyObject]],
                     numberOfPhotoPages = photosDictionary[JSONResponseKeys.Pages] as? Int {
+                    dispatch_async(dispatch_get_main_queue(), {
+                        pin.pageNumber = numberOfPhotoPages
                     
-                    pin.pageNumber = numberOfPhotoPages
-                    
-                    self.numberOfPhotosDownloaded = photosArray.count
-                    
-                    // DictionarY
-                    for photoDictionary in photosArray {
                         
-                        guard let photoURLString = photoDictionary[URLValues.URLMediumPhoto] as? String else {
-                            print ("error, photoDictionary)"); continue}
+                        self.numberOfPhotosDownloaded = photosArray.count
                         
-                        let newPhoto = Photo(photoURL: photoURLString, pin: pin, context: self.sharedContext)
-                        
-                        self.downloadPhotoImage(newPhoto, completionHandler: {
-                            success, error in
+                        // DictionarY
+                        for photoDictionary in photosArray {
                             
-                            print("Downloading photo by URL success: \(success) - error: \(error)")
+                            guard let photoURLString = photoDictionary[URLValues.URLMediumPhoto] as? String else {
+                                print ("error, photoDictionary)"); continue}
                             
-                            self.numberOfPhotosDownloaded -= 1
+                            let newPhoto = Photo(photoURL: photoURLString, pin: pin, context: self.sharedContext)
+                            
+                            self.downloadPhotoImage(newPhoto, completionHandler: {
+                                success, error in
+                                
+                                print("Downloading photo by URL success: \(success) - error: \(error)")
+                                
+                                self.numberOfPhotosDownloaded -= 1
 
-                            NSNotificationCenter.defaultCenter().postNotificationName("downloadPhotoImage.done", object: nil)
-                            
-                            // Save the context
-                            dispatch_async(dispatch_get_main_queue(), {
-                                CoreDataStackManager.sharedInstance().saveContext()
+                                NSNotificationCenter.defaultCenter().postNotificationName("downloadPhotoImage.done", object: nil)
+                                
+                                // Save the context
+                                dispatch_async(dispatch_get_main_queue(), {
+                                    CoreDataStackManager.sharedInstance().saveContext()
+                                })
                             })
-                        })
-                    }
-                    
+                        }
+                    })
                     completionHandler(success: true, error: nil)
                     
                 } else {
@@ -116,8 +117,9 @@ extension FlickrClient {
                     NSFileManager.defaultManager().createFileAtPath(fileURL.path!, contents: result, attributes: nil)
                     
                     //Update the Photo
-                    photo.filePath = fileURL.path
-                    
+                    dispatch_async(dispatch_get_main_queue(), {
+                        photo.filePath = fileURL.path
+                    })
                     completionHandler(success: true, error: nil)
                 }
             }
