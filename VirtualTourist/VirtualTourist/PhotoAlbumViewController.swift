@@ -17,6 +17,7 @@ class PhotoAlbumViewController : UIViewController, MKMapViewDelegate, NSFetchedR
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var newCollectionButton: UIButton!
+    @IBOutlet weak var noImageLabel: UILabel!
     
     var selectedIndexofCollectionViewCells = [NSIndexPath]()
     
@@ -56,9 +57,21 @@ class PhotoAlbumViewController : UIViewController, MKMapViewDelegate, NSFetchedR
 
         fetchedResultsController.delegate = self
         
-        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "reloadPhotos:", name: "downloadPhotoImage.done", object: nil)
     }
     
+
+    func reloadPhotos(notification: NSNotification) {
+        dispatch_async(dispatch_get_main_queue(), {
+            self.collectionView.reloadData()
+            
+            let numberRemaining = FlickrClient.sharedInstance().numberOfPhotosDownloaded
+            print("numberRemaining from reloadPhotos: \(numberRemaining)")
+            if numberRemaining <= 0 {
+                self.newCollectionButton.hidden = false
+            }
+        })
+    }
     
     
     //load in sent pin
@@ -68,24 +81,25 @@ class PhotoAlbumViewController : UIViewController, MKMapViewDelegate, NSFetchedR
         sentPin.title = pin?.title
         
         mapView.addAnnotation(sentPin)
-        
         mapView.centerCoordinate = sentPin.coordinate
-        
         mapView.selectAnnotation(sentPin, animated: true)
-        
-        
     }
 
     //COLLECTION VIEW METHODS
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int{
         
         let sectionInfo = self.fetchedResultsController.sections![section]
-        print("# of photos returned from fetchedResultsController: \(sectionInfo.numberOfObjects)")
-        if (sectionInfo.numberOfObjects > 0) {
+        let numberItems = sectionInfo.numberOfObjects
+        print("# of photos returned from fetchedResultsController: \(numberItems)")
+        
+        if (numberItems > 0) {
             newCollectionButton.hidden = false
         }
+        if (numberItems == 0) {
+            noImageLabel.hidden = true
+        }
         
-        return sectionInfo.numberOfObjects
+        return numberItems
     }
     
     
@@ -97,7 +111,7 @@ class PhotoAlbumViewController : UIViewController, MKMapViewDelegate, NSFetchedR
         let photo = fetchedResultsController.objectAtIndexPath(indexPath) as! Photo
 
         cell.imageView.image = photo.image
-
+        
         return cell
     }
     
@@ -142,9 +156,6 @@ class PhotoAlbumViewController : UIViewController, MKMapViewDelegate, NSFetchedR
                 } catch let error as NSError {
                     print("\(error)")
                 }
-                print("re-fetch completed")
-                self.collectionView.reloadData()
-                print("reloadData()")
             })
             
         })
