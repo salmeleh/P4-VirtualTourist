@@ -52,7 +52,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="g3R-WZ-H2e">
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="g3R-WZ-H2e">
                                 <rect key="frame" x="0.0" y="187" width="600" height="369"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="s8f-Zr-FcM">
@@ -72,7 +72,7 @@
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="bAL-bf-UYg">
                                                     <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
                                                 </imageView>
-                                                <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="tvO-Yy-OhV">
+                                                <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" misplaced="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="tvO-Yy-OhV">
                                                     <rect key="frame" x="32" y="31" width="37" height="37"/>
                                                 </activityIndicatorView>
                                             </subviews>
@@ -109,7 +109,7 @@
                                     </collectionViewCell>
                                 </cells>
                             </collectionView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NPt-zU-4Mg">
+                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NPt-zU-4Mg">
                                 <rect key="frame" x="241" y="526" width="118" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="B8h-C4-ZMt"/>
@@ -173,7 +173,7 @@
                                     </navigationItem>
                                 </items>
                             </navigationBar>
-                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="pxg-7N-Mf1">
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="pxg-7N-Mf1">
                                 <rect key="frame" x="0.0" y="64" width="600" height="128"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="128" id="PGM-Ax-wB2"/>
@@ -216,6 +216,9 @@
                                 <exclude reference="Frx-QX-1Ca"/>
                             </mask>
                             <mask key="constraints">
+                                <exclude reference="faI-Lb-JuB"/>
+                                <exclude reference="fuA-fm-YSF"/>
+                                <exclude reference="uf9-j3-sGB"/>
                                 <exclude reference="0oL-3H-PUj"/>
                                 <exclude reference="1Jo-0C-fIs"/>
                                 <exclude reference="3KD-Uw-RUw"/>
@@ -226,11 +229,8 @@
                                 <exclude reference="o1a-1g-gWX"/>
                                 <exclude reference="xTF-Mi-Fi1"/>
                                 <exclude reference="pmC-q9-jyg"/>
-                                <exclude reference="faI-Lb-JuB"/>
-                                <exclude reference="fuA-fm-YSF"/>
-                                <exclude reference="uf9-j3-sGB"/>
-                                <exclude reference="SOv-P4-6ZY"/>
                                 <exclude reference="w0p-HJ-6K3"/>
+                                <exclude reference="SOv-P4-6ZY"/>
                             </mask>
                         </variation>
                         <variation key="widthClass=compact">
@@ -239,6 +239,9 @@
                                 <include reference="Frx-QX-1Ca"/>
                             </mask>
                             <mask key="constraints">
+                                <include reference="faI-Lb-JuB"/>
+                                <include reference="fuA-fm-YSF"/>
+                                <include reference="uf9-j3-sGB"/>
                                 <include reference="0oL-3H-PUj"/>
                                 <include reference="1Jo-0C-fIs"/>
                                 <include reference="3KD-Uw-RUw"/>
@@ -255,12 +258,9 @@
                                 <exclude reference="lpr-M2-AiC"/>
                                 <include reference="pmC-q9-jyg"/>
                                 <exclude reference="yWx-JN-JFJ"/>
-                                <include reference="faI-Lb-JuB"/>
-                                <include reference="fuA-fm-YSF"/>
-                                <include reference="uf9-j3-sGB"/>
+                                <include reference="w0p-HJ-6K3"/>
                                 <include reference="SOv-P4-6ZY"/>
                                 <exclude reference="ac7-Df-BbC"/>
-                                <include reference="w0p-HJ-6K3"/>
                             </mask>
                         </variation>
                     </view>
