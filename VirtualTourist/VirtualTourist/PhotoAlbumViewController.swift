@@ -18,7 +18,9 @@ class PhotoAlbumViewController : UIViewController, MKMapViewDelegate, NSFetchedR
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var newCollectionButton: UIButton!
     @IBOutlet weak var noImageLabel: UILabel!
+    @IBOutlet weak var editButton: UIBarButtonItem!
     
+    var editFlag: Bool!
     var selectedIndexofCollectionViewCells = [NSIndexPath]()
     
     
@@ -115,6 +117,15 @@ class PhotoAlbumViewController : UIViewController, MKMapViewDelegate, NSFetchedR
         return cell
     }
     
+    
+    
+    @IBAction func editButtonPressed(sender: AnyObject) {
+        if (!editFlag) {
+            editFlag = true
+            editButton.enabled = false
+        }
+        else {editFlag = false}
+    }
     
     
     @IBAction func backButtonPressed(sender: AnyObject) {

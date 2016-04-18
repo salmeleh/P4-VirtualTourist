@@ -33,21 +33,13 @@ class MapViewController: UIViewController, MKMapViewDelegate, NSFetchedResultsCo
         //Hide the navigation bar
         self.navigationController?.setNavigationBarHidden(true, animated: false)
         
-        
-//        //http://stackoverflow.com/questions/25296691/swift-get-users-current-location-coordinates
-//        self.locationManager.requestAlwaysAuthorization()
-//        
-//        // For use in foreground
-//        self.locationManager.requestWhenInUseAuthorization()
-//        
-//        if CLLocationManager.locationServicesEnabled() {
-//            locationManager.delegate = self
-//            locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
-//            locationManager.startUpdatingLocation()
-//        }
-        
+        locationManager.requestWhenInUseAuthorization()
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        locationManager.startUpdatingLocation()
         
         initMap()
+        mapView.showsUserLocation = true
+        
         
         let longPressRecogniser = UILongPressGestureRecognizer(target: self, action: "handleLongPress:")
         longPressRecogniser.minimumPressDuration = 0.5
