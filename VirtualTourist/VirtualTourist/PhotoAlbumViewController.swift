@@ -20,7 +20,7 @@ class PhotoAlbumViewController : UIViewController, MKMapViewDelegate, NSFetchedR
     @IBOutlet weak var noImageLabel: UILabel!
     @IBOutlet weak var editButton: UIBarButtonItem!
     
-    var editFlag: Bool!
+    var editFlag: Bool = false
     var selectedIndexofCollectionViewCells = [NSIndexPath]()
     
     
@@ -98,7 +98,7 @@ class PhotoAlbumViewController : UIViewController, MKMapViewDelegate, NSFetchedR
             newCollectionButton.hidden = false
         }
         if (numberItems == 0) {
-            noImageLabel.hidden = true
+            noImageLabel.hidden = false
         }
         
         return numberItems
@@ -106,6 +106,30 @@ class PhotoAlbumViewController : UIViewController, MKMapViewDelegate, NSFetchedR
     
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath){
+        
+        if (editFlag == true) {
+            if let index = selectedIndexofCollectionViewCells.indexOf(indexPath){
+                selectedIndexofCollectionViewCells.removeAtIndex(index)
+            } else {
+                selectedIndexofCollectionViewCells.append(indexPath)
+            }
+
+            let photo = fetchedResultsController.objectAtIndexPath(indexPath) as! Photo
+            sharedContext.deleteObject(photo)
+            
+            selectedIndexofCollectionViewCells.removeAll()
+            CoreDataStackManager.sharedInstance().saveContext()
+            
+            reFetch()
+            collectionView.reloadData()
+            
+            editFlag = false
+            editButton.enabled = true
+            
+        }
+        
+        
+        
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell{
@@ -113,18 +137,14 @@ class PhotoAlbumViewController : UIViewController, MKMapViewDelegate, NSFetchedR
         let photo = fetchedResultsController.objectAtIndexPath(indexPath) as! Photo
 
         cell.imageView.image = photo.image
-        
         return cell
     }
     
     
     
     @IBAction func editButtonPressed(sender: AnyObject) {
-        if (!editFlag) {
-            editFlag = true
-            editButton.enabled = false
-        }
-        else {editFlag = false}
+        editFlag = true
+        editButton.enabled = false
     }
     
     
@@ -162,17 +182,23 @@ class PhotoAlbumViewController : UIViewController, MKMapViewDelegate, NSFetchedR
             }
             //re-fetch & reload
             dispatch_async(dispatch_get_main_queue(), {
-                do {
-                    try self.fetchedResultsController.performFetch()
-                } catch let error as NSError {
-                    print("\(error)")
-                }
+                self.reFetch()
+                self.newCollectionButton.hidden = false
             })
             
         })
 
         
         
+    }
+    
+    
+    func reFetch() {
+        do {
+            try self.fetchedResultsController.performFetch()
+        } catch let error as NSError {
+            print("\(error)")
+        }
     }
     
     

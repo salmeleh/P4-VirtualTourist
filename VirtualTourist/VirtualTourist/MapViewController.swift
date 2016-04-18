@@ -206,8 +206,8 @@ class MapViewController: UIViewController, MKMapViewDelegate, NSFetchedResultsCo
         return pinView
     }
     
+    
     func mapView(mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
-        
         if control == view.rightCalloutAccessoryView {
             
             let annotation = view.annotation
