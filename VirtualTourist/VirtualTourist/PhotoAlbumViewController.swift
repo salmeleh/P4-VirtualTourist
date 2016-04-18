@@ -87,6 +87,7 @@ class PhotoAlbumViewController : UIViewController, MKMapViewDelegate, NSFetchedR
         mapView.selectAnnotation(sentPin, animated: true)
     }
 
+    
     //COLLECTION VIEW METHODS
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int{
         

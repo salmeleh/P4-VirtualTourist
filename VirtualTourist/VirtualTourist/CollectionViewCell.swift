@@ -18,7 +18,12 @@ class CollectionViewCell: UICollectionViewCell {
         super.prepareForReuse()
         
         if imageView.image == nil {
+            activityIndicator.hidden = false
             activityIndicator.startAnimating()
+        }
+        else {
+            activityIndicator.stopAnimating()
+            activityIndicator.hidden = true
         }
     }
     
