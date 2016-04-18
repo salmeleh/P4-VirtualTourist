@@ -20,6 +20,8 @@ class CollectionViewCell: UICollectionViewCell {
         if imageView.image == nil {
             activityIndicator.hidden = false
             activityIndicator.startAnimating()
+            
+            imageView.image = UIImage(named: "Stack of Photos Filled-100.png")
         }
         else {
             activityIndicator.stopAnimating()

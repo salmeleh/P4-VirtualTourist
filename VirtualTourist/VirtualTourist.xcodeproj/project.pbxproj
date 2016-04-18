@@ -23,6 +23,7 @@
 		209E484C1CBD7728001D491A /* CollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 209E484B1CBD7728001D491A /* CollectionViewCell.swift */; };
 		209E484F1CBD7E15001D491A /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 209E484D1CBD7E15001D491A /* Model.xcdatamodeld */; };
 		20A6EA601CBE7FBE0087D224 /* FlickrConvenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20A6EA5F1CBE7FBE0087D224 /* FlickrConvenience.swift */; };
+		20F990051CC5773600F5BD73 /* Stack of Photos Filled-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 20F990041CC5773600F5BD73 /* Stack of Photos Filled-100.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -65,6 +66,7 @@
 		209E484B1CBD7728001D491A /* CollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewCell.swift; sourceTree = "<group>"; };
 		209E484E1CBD7E15001D491A /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
 		20A6EA5F1CBE7FBE0087D224 /* FlickrConvenience.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FlickrConvenience.swift; sourceTree = "<group>"; };
+		20F990041CC5773600F5BD73 /* Stack of Photos Filled-100.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Stack of Photos Filled-100.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -119,6 +121,7 @@
 				200FD57D1CBBE42E00B982F1 /* Modal */,
 				200FD57C1CBBE41600B982F1 /* Controller */,
 				200FD5551CBBE3E000B982F1 /* Assets.xcassets */,
+				20F990041CC5773600F5BD73 /* Stack of Photos Filled-100.png */,
 				200FD5571CBBE3E000B982F1 /* LaunchScreen.storyboard */,
 				200FD55A1CBBE3E000B982F1 /* Info.plist */,
 				200FD54E1CBBE3E000B982F1 /* AppDelegate.swift */,
@@ -292,6 +295,7 @@
 				200FD5591CBBE3E000B982F1 /* LaunchScreen.storyboard in Resources */,
 				200FD5561CBBE3E000B982F1 /* Assets.xcassets in Resources */,
 				200FD5541CBBE3E000B982F1 /* Main.storyboard in Resources */,
+				20F990051CC5773600F5BD73 /* Stack of Photos Filled-100.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
